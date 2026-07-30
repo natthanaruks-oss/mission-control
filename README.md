@@ -1,24 +1,25 @@
 # Mission Control MVP
 
-A functional browser-based prototype for daily work prioritization and focus management.
+A working browser-based prototype for daily work prioritization, focus management and management visibility.
 
 ## Included
 
-- Today Command Center
-- Daily energy/capacity check-in
-- Explainable task recommendation
-- Business-priority and focus-fit scoring
+- Production-style responsive UI aligned with the approved Mission Control mockup
+- Today Command Center and Recommended Now panel
+- Daily energy, capacity and uninterrupted-focus check-in
+- Explainable task recommendation with a visible Priority Score and Why Now
 - Must Win / Deep Focus / Quick Win / Coordination / Waiting board
-- Mission intake and editing
-- Focus timer
-- Blocker, reschedule, override and completion actions
-- Workload and control alerts
+- Mission intake, edit, delete and completion flow
+- Focus timer with pause, resume and completion
+- Blocker, reschedule, break-into-steps and manual override actions
+- Workload donut, control alerts, search and mission queue table
 - Browser `localStorage` persistence
-- Responsive desktop layout
+- Inline SVG icon system with no external UI dependency
+- Desktop, tablet and mobile navigation behavior
 
 ## Run locally
 
-Open `index.html` directly in a browser, or serve the folder:
+Open `index.html` directly in a modern browser, or serve the folder:
 
 ```bash
 python -m http.server 8080
@@ -37,7 +38,7 @@ Then open `http://localhost:8080`.
 
 ## Recommendation model
 
-The MVP uses a weighted score:
+The MVP uses the following weighted score:
 
 - Business Impact: 25%
 - Deadline / Latest Safe Start proxy: 20%
@@ -48,8 +49,8 @@ The MVP uses a weighted score:
 - Cognitive Fit: 5%
 - Time Fit: 5%
 
-Hard rules reduce or remove recommendations for completed, blocked, waiting, not-ready, or unclear missions.
+Hard rules reduce or remove recommendations for completed, blocked, waiting, not-ready or unclear missions.
 
-## Important MVP limitation
+## MVP limitation
 
-Data is stored only in the current browser using `localStorage`. For team use, audit trails, permissions, approval workflows and multi-device access, connect the UI to a backend such as Cloudflare Workers + D1 in the next phase.
+Data is stored only in the current browser using `localStorage`. Team use, audit trails, permissions, approval workflows, calendar synchronization and multi-device access require a central backend such as Cloudflare Workers + D1.

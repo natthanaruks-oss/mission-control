@@ -3,69 +3,109 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#08253b" />
+  <meta name="theme-color" content="#071e31" />
+  <meta name="description" content="Mission Control — focus-based priority and execution management." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <title>Mission Control — Focus. Prioritize. Execute.</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <svg class="svg-sprite" aria-hidden="true">
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-7H9v7H3.5a.5.5 0 0 1-.5-.5z"/><path d="M8 21v-8h8v8"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h12M9 12h12M9 18h12"/><rect x="3" y="4" width="3" height="3" rx=".7"/><rect x="3" y="10.5" width="3" height="3" rx=".7"/><rect x="3" y="17" width="3" height="3" rx=".7"/></symbol>
+    <symbol id="i-user-card" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2.4"/><path d="M5.8 17c.7-2.4 2-3.6 3.2-3.6s2.6 1.2 3.2 3.6M14.5 9H19M14.5 13H19"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18M7 14h2M11 14h2M15 14h2M7 18h2M11 18h2"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/><path d="m3 8 6-4 6 7 6-5"/></symbol>
+    <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5V3h6v1.5M9 10h6M9 14h6M9 18h4"/></symbol>
+    <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v5l3 2M9 2h6M17.5 5.5 19 4"/></symbol>
+    <symbol id="i-archive" viewBox="0 0 24 24"><path d="M4 7h16l-1 14H5z"/><path d="M3 3h18v4H3zM9 11h6"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1A1.7 1.7 0 0 0 9 4.6 1.7 1.7 0 0 0 10 3v-.2h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1z"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 8h18c0-1-3-1-3-8M10 21h4"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.7 9a2.5 2.5 0 0 1 4.8 1c0 2-2.5 2.2-2.5 4M12 18h.01"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="m13 2-8 12h7l-1 8 8-12h-7z"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2.5 20h19z"/><path d="M12 9v5M12 17h.01"/></symbol>
+    <symbol id="i-risk" viewBox="0 0 24 24"><path d="M5 20V10M10 20V5M15 20v-8M20 20V3"/><path d="M3 20h19"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></symbol>
+    <symbol id="i-calendar-plus" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18M12 13v5M9.5 15.5h5"/></symbol>
+    <symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m5.6 5.6 12.8 12.8"/></symbol>
+    <symbol id="i-branch" viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M6 7v7a4 4 0 0 0 4 4h6M8 8h6a4 4 0 0 0 4-4"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L9 17l-4 1 1-4z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="i-file-chart" viewBox="0 0 24 24"><path d="M6 2h8l5 5v15H6z"/><path d="M14 2v6h6M9 17v-3M13 17v-6M17 17v-4"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M18 12a6 6 0 0 0-10-4.5L5 10M6 12a6 6 0 0 0 10 4.5l3-2.5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  </svg>
+
   <div class="app-shell">
-    <aside class="sidebar" aria-label="Primary navigation">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
       <div class="brand">
-        <div class="brand-mark">MC</div>
         <div>
           <h1>MISSION CONTROL</h1>
           <p>Focus. Prioritize. Execute.</p>
         </div>
+        <button class="sidebar-close" id="sidebar-close" aria-label="Close navigation"><svg><use href="#i-x"/></svg></button>
       </div>
 
       <div class="profile-card">
-        <div class="avatar">NS</div>
-        <div>
+        <div class="avatar" aria-label="Natthanaruk S.">
+          <svg viewBox="0 0 64 64" role="img"><circle cx="32" cy="32" r="31" fill="#f3f7fb"/><path d="M16 57c2-12 8-18 16-18s14 6 16 18" fill="#c6d8e7"/><circle cx="32" cy="25" r="11" fill="#e6bd9b"/><path d="M21 24c.5-9 5-14 12-14 6.5 0 10.5 4.8 10.5 12.5-4-1-7-3.2-9.5-6.5-2 4-6.2 6.5-13 8z" fill="#26394d"/><path d="M25 31c2.2 2.4 4.5 3.6 7 3.6s4.8-1.2 7-3.6" fill="none" stroke="#9b5f47" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </div>
+        <div class="profile-copy">
           <strong>Natthanaruk S.</strong>
-          <span>Sales Operations & BI</span>
+          <span>Sales Operations &amp; BI</span>
           <small><i></i> Online</small>
         </div>
       </div>
 
       <nav class="nav-list">
-        <button class="nav-item active" data-view="today"><span>⌂</span> Today Command Center</button>
-        <button class="nav-item" data-view="queue"><span>☷</span> Mission Queue</button>
-        <button class="nav-item" data-view="my"><span>▣</span> My Missions</button>
-        <button class="nav-item" data-view="projects"><span>▦</span> Projects / Workstreams</button>
-        <button class="nav-item" data-view="calendar"><span>▤</span> Calendar</button>
-        <button class="nav-item" data-view="reports"><span>◫</span> Reports & Radar</button>
-        <button class="nav-item" data-action="open-intake"><span>✎</span> Mission Intake</button>
-        <button class="nav-item" data-action="scroll-timer"><span>◷</span> Focus Timer</button>
-        <button class="nav-item" data-view="archive"><span>▱</span> Archive</button>
-        <button class="nav-item" data-action="open-settings"><span>⚙</span> Settings</button>
+        <button class="nav-item active" data-view="today"><svg><use href="#i-home"/></svg><span>Today Command Center</span></button>
+        <button class="nav-item" data-view="queue"><svg><use href="#i-list"/></svg><span>Mission Queue</span></button>
+        <button class="nav-item" data-view="my"><svg><use href="#i-user-card"/></svg><span>My Missions</span></button>
+        <button class="nav-item" data-view="projects"><svg><use href="#i-grid"/></svg><span>Projects / Workstreams</span></button>
+        <button class="nav-item" data-view="calendar"><svg><use href="#i-calendar"/></svg><span>Calendar</span></button>
+        <button class="nav-item" data-view="reports"><svg><use href="#i-chart"/></svg><span>Reports &amp; Radar</span></button>
+        <button class="nav-item" data-action="open-intake"><svg><use href="#i-clipboard"/></svg><span>Mission Intake</span></button>
+        <button class="nav-item" data-action="scroll-timer"><svg><use href="#i-timer"/></svg><span>Focus Timer</span></button>
+        <button class="nav-item" data-view="archive"><svg><use href="#i-archive"/></svg><span>Archive</span></button>
+        <button class="nav-item" data-action="open-settings"><svg><use href="#i-settings"/></svg><span>Settings</span></button>
       </nav>
 
-      <button class="quick-add" data-action="open-intake"><span>＋</span> Quick Add Mission</button>
+      <button class="quick-add" data-action="open-intake"><svg><use href="#i-plus"/></svg><span>Quick Add Mission</span></button>
 
       <div class="checkin-mini">
         <div>
-          <strong><span class="check-dot">✓</span> Daily Check-in</strong>
+          <strong><span class="check-dot"><svg><use href="#i-check"/></svg></span>Daily Check-in</strong>
           <small id="checkin-time">Not completed</small>
         </div>
         <button data-action="open-checkin">Update</button>
       </div>
     </aside>
+    <button class="sidebar-scrim" id="sidebar-scrim" aria-label="Close navigation"></button>
 
     <main class="main-content">
       <header class="topbar">
-        <div>
+        <button class="mobile-menu icon-btn" id="mobile-menu" aria-label="Open navigation"><svg><use href="#i-menu"/></svg></button>
+        <div class="heading-copy">
           <h2 id="page-title">Today Command Center</h2>
           <p id="greeting">Good morning. Let’s win today.</p>
         </div>
         <div class="top-actions">
-          <button class="icon-btn" id="search-toggle" aria-label="Search">⌕</button>
-          <button class="icon-btn notification" id="notification-btn" aria-label="Notifications">♢<b id="notification-count">0</b></button>
-          <button class="icon-btn" id="help-btn" aria-label="Help">?</button>
+          <button class="icon-btn" id="search-toggle" aria-label="Search"><svg><use href="#i-search"/></svg></button>
+          <button class="icon-btn notification" id="notification-btn" aria-label="Notifications"><svg><use href="#i-bell"/></svg><b id="notification-count">0</b></button>
+          <button class="icon-btn" id="help-btn" aria-label="Help"><svg><use href="#i-help"/></svg></button>
         </div>
       </header>
 
       <section id="search-panel" class="search-panel hidden">
-        <input id="global-search" type="search" placeholder="Search missions, projects, owners or next actions…" />
+        <div class="search-input-wrap"><svg><use href="#i-search"/></svg><input id="global-search" type="search" placeholder="Search missions, projects, owners or next actions…" /></div>
         <button id="clear-search">Clear</button>
       </section>
 
@@ -74,23 +114,23 @@
           <div class="primary-column">
             <section class="metrics" aria-label="Daily status summary">
               <article class="metric-card">
-                <div class="metric-icon blue">◷</div>
+                <div class="metric-icon blue"><svg><use href="#i-clock"/></svg></div>
                 <div><span>Available Focus Time</span><strong id="metric-focus">4.5 hrs</strong><small id="metric-capacity">of 8.0 hrs</small></div>
               </article>
               <article class="metric-card">
-                <div class="metric-icon green">ϟ</div>
+                <div class="metric-icon green"><svg><use href="#i-bolt"/></svg></div>
                 <div><span>Energy Level</span><strong id="metric-energy">High</strong><small id="metric-energy-time">Update check-in</small></div>
               </article>
               <article class="metric-card">
-                <div class="metric-icon purple">▦</div>
+                <div class="metric-icon purple"><svg><use href="#i-calendar"/></svg></div>
                 <div><span>Today's Meetings</span><strong>2</strong><small>Next: 2:00 PM</small></div>
               </article>
               <article class="metric-card">
-                <div class="metric-icon red">△</div>
+                <div class="metric-icon red"><svg><use href="#i-alert"/></svg></div>
                 <div><span>Overdue Missions</span><strong id="metric-overdue">0</strong><small>Needs your action</small></div>
               </article>
               <article class="metric-card">
-                <div class="metric-icon amber">♜</div>
+                <div class="metric-icon amber"><svg><use href="#i-risk"/></svg></div>
                 <div><span>At-Risk Missions</span><strong id="metric-risk">0</strong><small>Due soon or at risk</small></div>
               </article>
             </section>
@@ -98,12 +138,11 @@
             <section class="panel recommended-panel" id="recommended-panel">
               <div class="section-heading">
                 <div>
-                  <span class="section-icon">◎</span>
+                  <span class="section-icon"><svg><use href="#i-target"/></svg></span>
                   <h3>Recommended Now</h3>
                 </div>
-                <button class="link-btn" id="refresh-recommendation">Recalculate</button>
+                <button class="link-btn icon-link" id="refresh-recommendation"><svg><use href="#i-refresh"/></svg>Recalculate</button>
               </div>
-
               <div id="recommended-content" class="recommended-content"></div>
             </section>
 
@@ -128,10 +167,9 @@
 
             <section class="panel focus-strip" id="focus-timer-section">
               <div class="focus-summary">
-                <div class="timer-icon">◴</div>
+                <div class="timer-icon"><svg><use href="#i-timer"/></svg></div>
                 <div>
-                  <strong>Focus Timer</strong>
-                  <span id="timer-state">Not running</span>
+                  <div class="focus-title-row"><strong>Focus Timer</strong><span id="timer-state">Not running</span></div>
                   <small id="timer-task">Start a mission to begin focus timer</small>
                 </div>
               </div>
@@ -142,7 +180,7 @@
               </div>
               <div class="focus-tip">
                 <strong>Focus Tip</strong>
-                <em>Protect your highest-energy block for the work that creates the most impact.</em>
+                <em>“Protect your highest-energy block for work that creates real impact.”</em>
               </div>
             </section>
           </div>
@@ -157,7 +195,7 @@
               <div class="schedule-list">
                 <div class="schedule-item focus"><span>09:00 – 10:30</span><strong>Deep Focus Block</strong></div>
                 <div class="schedule-item meeting"><span>14:00 – 15:00</span><strong>Management Meeting</strong></div>
-                <div class="schedule-item meeting"><span>16:00 – 16:30</span><strong>Review & Approval</strong></div>
+                <div class="schedule-item meeting purple"><span>16:00 – 16:30</span><strong>Review &amp; Approval</strong></div>
               </div>
             </section>
 
@@ -191,11 +229,11 @@
             <h3 id="generic-title">Mission Queue</h3>
             <p id="generic-description">Manage, filter and review all missions.</p>
           </div>
-          <button class="primary-btn" data-action="open-intake">＋ Add Mission</button>
+          <button class="primary-btn with-icon" data-action="open-intake"><svg><use href="#i-plus"/></svg>Add Mission</button>
         </div>
         <div class="panel table-panel">
           <div class="table-filters">
-            <input id="table-search" type="search" placeholder="Search this view…" />
+            <div class="search-input-wrap"><svg><use href="#i-search"/></svg><input id="table-search" type="search" placeholder="Search this view…" /></div>
             <select id="table-status-filter">
               <option value="all">All statuses</option>
               <option value="Not Started">Not Started</option>
@@ -221,7 +259,7 @@
   <section class="modal hidden" id="mission-modal" role="dialog" aria-modal="true" aria-labelledby="mission-modal-title">
     <div class="modal-header">
       <div><span class="eyebrow">MISSION INTAKE</span><h3 id="mission-modal-title">Create Mission</h3></div>
-      <button class="modal-close" data-close-modal>×</button>
+      <button class="modal-close" data-close-modal aria-label="Close"><svg><use href="#i-x"/></svg></button>
     </div>
     <form id="mission-form">
       <input type="hidden" id="mission-id" />
@@ -230,7 +268,7 @@
         <label class="span-2">Expected Outcome<textarea id="mission-outcome" rows="2" required placeholder="What must be true when this mission is complete?"></textarea></label>
         <label>Owner<input id="mission-owner" required value="Natthanaruk" /></label>
         <label>Project / Workstream<input id="mission-project" placeholder="e.g. Monthly Management Pack" /></label>
-        <label>Due Date & Time<input id="mission-due" type="datetime-local" required /></label>
+        <label>Due Date &amp; Time<input id="mission-due" type="datetime-local" required /></label>
         <label>Estimated Effort<select id="mission-effort"><option value="15">15 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="60" selected>60 min</option><option value="90">90 min</option><option value="120">2 hrs</option><option value="180">3+ hrs</option></select></label>
         <label>Business Impact<select id="mission-impact"><option>Critical</option><option selected>High</option><option>Medium</option><option>Low</option></select></label>
         <label>Consequence if Delayed<select id="mission-consequence"><option value="100">Severe — financial, customer or compliance impact</option><option value="80">High — blocks management or team delivery</option><option value="55" selected>Moderate — delay or rework</option><option value="25">Low — limited impact</option></select></label>
@@ -255,7 +293,7 @@
   <section class="modal small-modal hidden" id="checkin-modal" role="dialog" aria-modal="true" aria-labelledby="checkin-title">
     <div class="modal-header">
       <div><span class="eyebrow">DAILY CAPACITY</span><h3 id="checkin-title">Daily Check-in</h3></div>
-      <button class="modal-close" data-close-modal>×</button>
+      <button class="modal-close" data-close-modal aria-label="Close"><svg><use href="#i-x"/></svg></button>
     </div>
     <form id="checkin-form">
       <div class="checkin-options">
@@ -270,7 +308,7 @@
   </section>
 
   <section class="modal small-modal hidden" id="override-modal" role="dialog" aria-modal="true" aria-labelledby="override-title">
-    <div class="modal-header"><div><span class="eyebrow">MANUAL OVERRIDE</span><h3 id="override-title">Choose Recommended Mission</h3></div><button class="modal-close" data-close-modal>×</button></div>
+    <div class="modal-header"><div><span class="eyebrow">MANUAL OVERRIDE</span><h3 id="override-title">Choose Recommended Mission</h3></div><button class="modal-close" data-close-modal aria-label="Close"><svg><use href="#i-x"/></svg></button></div>
     <form id="override-form">
       <label>Mission<select id="override-mission"></select></label>
       <label>Reason<select id="override-reason"><option>Management instruction</option><option>Customer urgency</option><option>New information received</option><option>Personal focus preference</option><option>Other</option></select></label>
@@ -279,7 +317,6 @@
   </section>
 
   <div id="toast" class="toast hidden" role="status"></div>
-
   <script src="app.js"></script>
 </body>
 </html>

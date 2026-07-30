@@ -27,6 +27,10 @@
     archive: ['Archive', 'Review completed and archived missions.']
   };
 
+  const uid = () => (globalThis.crypto?.randomUUID ? globalThis.crypto.randomUUID() : `m-${Date.now()}-${Math.random().toString(16).slice(2)}`);
+  const el = (id) => document.getElementById(id);
+  const qsa = (selector) => [...document.querySelectorAll(selector)];
+
   let missions = loadMissions();
   let checkin = loadCheckin();
   let manualOverride = loadJSON(STORAGE_KEYS.override, null);
@@ -35,10 +39,6 @@
   let tableContext = 'queue';
   let timerInterval = null;
   let timer = loadJSON(STORAGE_KEYS.timer, { taskId: null, remaining: 0, running: false, lastTick: null });
-
-  const uid = () => (globalThis.crypto?.randomUUID ? globalThis.crypto.randomUUID() : `m-${Date.now()}-${Math.random().toString(16).slice(2)}`);
-  const el = (id) => document.getElementById(id);
-  const qsa = (selector) => [...document.querySelectorAll(selector)];
 
   function todayAt(hour = 17, minute = 0, dayOffset = 0) {
     const d = new Date();
@@ -326,30 +326,30 @@
     const health = taskHealth(task);
     container.innerHTML = `
       <div class="rec-main">
-        <div class="rec-visual">▤</div>
+        <div class="rec-visual">${icon('i-file-chart')}</div>
         <div class="rec-info">
           <h4>${escapeHTML(task.title)}</h4>
           <div class="tag-row">
-            <span class="tag red">${escapeHTML(task.impact.toUpperCase())} IMPACT</span>
-            <span class="tag blue">DUE ${escapeHTML(formatDateTime(task.dueAt).toUpperCase())}</span>
-            <span class="tag ${health === 'On Track' ? 'green' : 'amber'}">${escapeHTML(health.toUpperCase())}</span>
-            ${overridden ? '<span class="tag amber">MANUAL OVERRIDE</span>' : ''}
+            <span class="tag red">${icon('i-bolt')}${escapeHTML(task.impact.toUpperCase())} IMPACT</span>
+            <span class="tag blue">${icon('i-clock')}DUE ${escapeHTML(formatDateTime(task.dueAt).toUpperCase())}</span>
+            <span class="tag ${health === 'On Track' ? 'green' : 'amber'}">${icon(health === 'On Track' ? 'i-check' : 'i-alert')}${escapeHTML(health.toUpperCase())}</span>
+            ${overridden ? `<span class="tag amber">${icon('i-edit')}MANUAL OVERRIDE</span>` : ''}
           </div>
           <div class="rec-details">
-            <div class="detail-row"><span>Estimated Time</span><strong>${task.effort} min</strong></div>
-            <div class="detail-row"><span>Focus Type</span><strong>${escapeHTML(task.focusType)}</strong></div>
-            <div class="detail-row"><span>Priority Score</span><strong>${scoreTask(task)} / 100</strong></div>
-            <div class="detail-row"><span>Why Now</span><strong>${escapeHTML(reasons.join(', ') || 'Highest actionable score')}</strong></div>
+            <div class="detail-row"><span>${icon('i-clock')}Estimated Time</span><strong>${task.effort} min</strong></div>
+            <div class="detail-row"><span>${icon('i-bolt')}Focus Type</span><strong>${escapeHTML(task.focusType)}</strong></div>
+            <div class="detail-row"><span>${icon('i-target')}Priority Score</span><strong>${scoreTask(task)} / 100</strong></div>
+            <div class="detail-row"><span>${icon('i-help')}Why Now</span><strong>${escapeHTML(reasons.join(', ') || 'Highest actionable score')}</strong></div>
           </div>
         </div>
         <div class="outcome-box"><small>EXPECTED OUTCOME</small><p>${escapeHTML(task.outcome)}</p></div>
       </div>
       <div class="rec-actions">
-        <button class="primary-btn" data-rec-action="start" data-id="${task.id}">▶ Start Mission</button>
-        <button class="secondary-btn" data-rec-action="schedule" data-id="${task.id}">▦ Schedule Later</button>
-        <button class="secondary-btn" data-rec-action="blocked" data-id="${task.id}">⊘ Mark Blocked</button>
-        <button class="secondary-btn" data-rec-action="steps" data-id="${task.id}">⌘ Break into Steps</button>
-        <button class="secondary-btn" data-rec-action="override" data-id="${task.id}">✎ Override</button>
+        <button class="primary-btn" data-rec-action="start" data-id="${task.id}">${icon('i-play')}Start Mission</button>
+        <button class="secondary-btn" data-rec-action="schedule" data-id="${task.id}">${icon('i-calendar-plus')}Schedule Later</button>
+        <button class="secondary-btn" data-rec-action="blocked" data-id="${task.id}">${icon('i-ban')}Mark Blocked</button>
+        <button class="secondary-btn" data-rec-action="steps" data-id="${task.id}">${icon('i-branch')}Break into Steps</button>
+        <button class="secondary-btn" data-rec-action="override" data-id="${task.id}">${icon('i-edit')}Override</button>
       </div>`;
   }
 
@@ -372,10 +372,12 @@
     el('queue-count').textContent = `Mission Queue (${data.length})`;
     board.innerHTML = COLUMN_CONFIG.map(column => {
       const tasks = data.filter(task => classifyTask(task) === column.id).sort((a,b) => scoreTask(b)-scoreTask(a));
+      const visibleTasks = tasks.slice(0, 3);
       return `<section class="board-column ${column.className}">
         <h4>${column.title} (${tasks.length})</h4>
         <div class="board-cards">
-          ${tasks.length ? tasks.slice(0,4).map(renderMissionCard).join('') : '<div class="column-empty">No missions</div>'}
+          ${visibleTasks.length ? visibleTasks.map(renderMissionCard).join('') : '<div class="column-empty">No missions</div>'}
+          ${tasks.length > visibleTasks.length ? `<button class="more-column" data-view="queue">+${tasks.length - visibleTasks.length} more</button>` : ''}
         </div>
         <button class="add-column" data-action="open-intake">＋ Add Mission</button>
       </section>`;
@@ -387,7 +389,7 @@
     const healthClass = health.toLowerCase().replaceAll(' ', '-');
     return `<article class="mission-card" data-edit-id="${task.id}">
       <h5>${escapeHTML(task.title)}</h5>
-      <div class="card-meta"><span>${escapeHTML(formatDateTime(task.dueAt))}</span><span>◷ ${task.effort} min</span></div>
+      <div class="card-meta"><span>${escapeHTML(formatDateTime(task.dueAt))}</span><span>${icon('i-clock')}${task.effort} min</span></div>
       <span class="card-health ${healthClass}">${escapeHTML(health)}</span>
     </article>`;
   }
@@ -397,11 +399,11 @@
     const risk = missions.filter(m => taskHealth(m) === 'At Risk').length;
     const blocked = missions.filter(m => ['Blocked','Waiting'].includes(taskHealth(m))).length;
     const alerts = [
-      { type: 'red', icon: '!', title: `Overdue Missions (${overdue})`, copy: 'Needs your action', filter: 'overdue' },
-      { type: 'amber', icon: '△', title: `At-Risk Missions (${risk})`, copy: 'Due soon or at risk', filter: 'risk' },
-      { type: 'blue', icon: '×', title: `Blocked / Waiting (${blocked})`, copy: 'Requires follow-up or input', filter: 'waiting' }
+      { type: 'red', icon: 'i-bell', title: `Overdue Missions (${overdue})`, copy: 'Needs your action', filter: 'overdue' },
+      { type: 'amber', icon: 'i-alert', title: `At-Risk Missions (${risk})`, copy: 'Due soon or at risk', filter: 'risk' },
+      { type: 'blue', icon: 'i-ban', title: `Blocked / Waiting (${blocked})`, copy: 'Requires follow-up or input', filter: 'waiting' }
     ];
-    el('alerts-list').innerHTML = alerts.map(a => `<div class="alert-item ${a.type}" data-alert-filter="${a.filter}"><span class="alert-icon">${a.icon}</span><div class="alert-copy"><strong>${a.title}</strong><small>${a.copy}</small></div><span class="alert-arrow">›</span></div>`).join('');
+    el('alerts-list').innerHTML = alerts.map(a => `<div class="alert-item ${a.type}" data-alert-filter="${a.filter}"><span class="alert-icon">${icon(a.icon)}</span><div class="alert-copy"><strong>${a.title}</strong><small>${a.copy}</small></div><span class="alert-arrow">${icon('i-chevron')}</span></div>`).join('');
   }
 
   function renderWorkload() {
@@ -680,11 +682,23 @@
     clearTimeout(node._timeout); node._timeout = setTimeout(() => node.classList.add('hidden'), 2800);
   }
 
+  function icon(id) {
+    return `<svg aria-hidden="true"><use href="#${id}"></use></svg>`;
+  }
+
   function escapeHTML(value) {
     return String(value ?? '').replace(/[&<>'"]/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;' }[char]));
   }
 
+  function closeSidebar() {
+    document.body.classList.remove('sidebar-open');
+  }
+
   function initEvents() {
+    el('mobile-menu')?.addEventListener('click', () => document.body.classList.add('sidebar-open'));
+    el('sidebar-close')?.addEventListener('click', closeSidebar);
+    el('sidebar-scrim')?.addEventListener('click', closeSidebar);
+
     document.addEventListener('click', event => {
       const actionNode = event.target.closest('[data-action]');
       if (actionNode) {
@@ -693,9 +707,10 @@
         if (action === 'open-checkin') openCheckinModal();
         if (action === 'scroll-timer') el('focus-timer-section').scrollIntoView({ behavior:'smooth', block:'center' });
         if (action === 'open-settings') toast('Settings are reserved for the next version.');
+        closeSidebar();
       }
       const viewNode = event.target.closest('[data-view]');
-      if (viewNode) switchView(viewNode.dataset.view);
+      if (viewNode) { switchView(viewNode.dataset.view); closeSidebar(); }
       const editNode = event.target.closest('[data-edit-id]');
       if (editNode) openMissionModal(editNode.dataset.editId);
       const recNode = event.target.closest('[data-rec-action]');
