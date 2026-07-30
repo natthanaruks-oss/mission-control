@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#08253b" />
+  <title>Mission Control — Focus. Prioritize. Execute.</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <div class="brand">
+        <div class="brand-mark">MC</div>
+        <div>
+          <h1>MISSION CONTROL</h1>
+          <p>Focus. Prioritize. Execute.</p>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="avatar">NS</div>
+        <div>
+          <strong>Natthanaruk S.</strong>
+          <span>Sales Operations & BI</span>
+          <small><i></i> Online</small>
+        </div>
+      </div>
+
+      <nav class="nav-list">
+        <button class="nav-item active" data-view="today"><span>⌂</span> Today Command Center</button>
+        <button class="nav-item" data-view="queue"><span>☷</span> Mission Queue</button>
+        <button class="nav-item" data-view="my"><span>▣</span> My Missions</button>
+        <button class="nav-item" data-view="projects"><span>▦</span> Projects / Workstreams</button>
+        <button class="nav-item" data-view="calendar"><span>▤</span> Calendar</button>
+        <button class="nav-item" data-view="reports"><span>◫</span> Reports & Radar</button>
+        <button class="nav-item" data-action="open-intake"><span>✎</span> Mission Intake</button>
+        <button class="nav-item" data-action="scroll-timer"><span>◷</span> Focus Timer</button>
+        <button class="nav-item" data-view="archive"><span>▱</span> Archive</button>
+        <button class="nav-item" data-action="open-settings"><span>⚙</span> Settings</button>
+      </nav>
+
+      <button class="quick-add" data-action="open-intake"><span>＋</span> Quick Add Mission</button>
+
+      <div class="checkin-mini">
+        <div>
+          <strong><span class="check-dot">✓</span> Daily Check-in</strong>
+          <small id="checkin-time">Not completed</small>
+        </div>
+        <button data-action="open-checkin">Update</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <h2 id="page-title">Today Command Center</h2>
+          <p id="greeting">Good morning. Let’s win today.</p>
+        </div>
+        <div class="top-actions">
+          <button class="icon-btn" id="search-toggle" aria-label="Search">⌕</button>
+          <button class="icon-btn notification" id="notification-btn" aria-label="Notifications">♢<b id="notification-count">0</b></button>
+          <button class="icon-btn" id="help-btn" aria-label="Help">?</button>
+        </div>
+      </header>
+
+      <section id="search-panel" class="search-panel hidden">
+        <input id="global-search" type="search" placeholder="Search missions, projects, owners or next actions…" />
+        <button id="clear-search">Clear</button>
+      </section>
+
+      <section id="today-view" class="view active-view">
+        <div class="content-grid">
+          <div class="primary-column">
+            <section class="metrics" aria-label="Daily status summary">
+              <article class="metric-card">
+                <div class="metric-icon blue">◷</div>
+                <div><span>Available Focus Time</span><strong id="metric-focus">4.5 hrs</strong><small id="metric-capacity">of 8.0 hrs</small></div>
+              </article>
+              <article class="metric-card">
+                <div class="metric-icon green">ϟ</div>
+                <div><span>Energy Level</span><strong id="metric-energy">High</strong><small id="metric-energy-time">Update check-in</small></div>
+              </article>
+              <article class="metric-card">
+                <div class="metric-icon purple">▦</div>
+                <div><span>Today's Meetings</span><strong>2</strong><small>Next: 2:00 PM</small></div>
+              </article>
+              <article class="metric-card">
+                <div class="metric-icon red">△</div>
+                <div><span>Overdue Missions</span><strong id="metric-overdue">0</strong><small>Needs your action</small></div>
+              </article>
+              <article class="metric-card">
+                <div class="metric-icon amber">♜</div>
+                <div><span>At-Risk Missions</span><strong id="metric-risk">0</strong><small>Due soon or at risk</small></div>
+              </article>
+            </section>
+
+            <section class="panel recommended-panel" id="recommended-panel">
+              <div class="section-heading">
+                <div>
+                  <span class="section-icon">◎</span>
+                  <h3>Recommended Now</h3>
+                </div>
+                <button class="link-btn" id="refresh-recommendation">Recalculate</button>
+              </div>
+
+              <div id="recommended-content" class="recommended-content"></div>
+            </section>
+
+            <section class="panel today-plan-panel">
+              <div class="section-heading plan-heading">
+                <div>
+                  <h3>Today Plan</h3>
+                  <span id="queue-count" class="muted-label">Mission Queue</span>
+                </div>
+                <div class="plan-controls">
+                  <select id="plan-filter" aria-label="Filter missions">
+                    <option value="all">All active</option>
+                    <option value="mine">My missions</option>
+                    <option value="overdue">Overdue</option>
+                    <option value="risk">At risk</option>
+                  </select>
+                  <button class="link-btn" id="view-all-btn">View All</button>
+                </div>
+              </div>
+              <div id="mission-board" class="mission-board"></div>
+            </section>
+
+            <section class="panel focus-strip" id="focus-timer-section">
+              <div class="focus-summary">
+                <div class="timer-icon">◴</div>
+                <div>
+                  <strong>Focus Timer</strong>
+                  <span id="timer-state">Not running</span>
+                  <small id="timer-task">Start a mission to begin focus timer</small>
+                </div>
+              </div>
+              <div class="timer-display" id="timer-display">00:00</div>
+              <div class="timer-actions">
+                <button id="timer-pause" class="secondary-btn" disabled>Pause</button>
+                <button id="timer-complete" class="primary-btn" disabled>Complete</button>
+              </div>
+              <div class="focus-tip">
+                <strong>Focus Tip</strong>
+                <em>Protect your highest-energy block for the work that creates the most impact.</em>
+              </div>
+            </section>
+          </div>
+
+          <aside class="right-rail">
+            <section class="panel schedule-panel">
+              <div class="rail-heading">
+                <h3>Today's Schedule</h3>
+                <button class="link-btn" data-view="calendar">View Calendar</button>
+              </div>
+              <p class="schedule-date" id="today-date"></p>
+              <div class="schedule-list">
+                <div class="schedule-item focus"><span>09:00 – 10:30</span><strong>Deep Focus Block</strong></div>
+                <div class="schedule-item meeting"><span>14:00 – 15:00</span><strong>Management Meeting</strong></div>
+                <div class="schedule-item meeting"><span>16:00 – 16:30</span><strong>Review & Approval</strong></div>
+              </div>
+            </section>
+
+            <section class="panel alerts-panel">
+              <div class="rail-heading">
+                <h3>Control Alerts</h3>
+                <button class="link-btn" id="view-alerts">View All</button>
+              </div>
+              <div id="alerts-list" class="alerts-list"></div>
+            </section>
+
+            <section class="panel workload-panel">
+              <div class="rail-heading">
+                <h3>My Workload</h3>
+                <button class="link-btn" data-view="reports">View Report</button>
+              </div>
+              <div class="workload-main">
+                <div class="donut" id="workload-donut"><div><strong id="workload-total">0</strong><span>Missions</span></div></div>
+                <div id="workload-legend" class="workload-legend"></div>
+              </div>
+              <div class="workload-footer"><span>Total</span><strong id="workload-total-footer">0</strong></div>
+              <div class="workload-footer"><span>Completed This Week</span><strong id="completed-week">0</strong></div>
+            </section>
+          </aside>
+        </div>
+      </section>
+
+      <section id="generic-view" class="view">
+        <div class="generic-toolbar panel">
+          <div>
+            <h3 id="generic-title">Mission Queue</h3>
+            <p id="generic-description">Manage, filter and review all missions.</p>
+          </div>
+          <button class="primary-btn" data-action="open-intake">＋ Add Mission</button>
+        </div>
+        <div class="panel table-panel">
+          <div class="table-filters">
+            <input id="table-search" type="search" placeholder="Search this view…" />
+            <select id="table-status-filter">
+              <option value="all">All statuses</option>
+              <option value="Not Started">Not Started</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Waiting">Waiting</option>
+              <option value="Blocked">Blocked</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Mission</th><th>Owner</th><th>Due</th><th>Priority</th><th>Status</th><th>Health</th><th>Score</th></tr></thead>
+              <tbody id="mission-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="modal-backdrop"></div>
+
+  <section class="modal hidden" id="mission-modal" role="dialog" aria-modal="true" aria-labelledby="mission-modal-title">
+    <div class="modal-header">
+      <div><span class="eyebrow">MISSION INTAKE</span><h3 id="mission-modal-title">Create Mission</h3></div>
+      <button class="modal-close" data-close-modal>×</button>
+    </div>
+    <form id="mission-form">
+      <input type="hidden" id="mission-id" />
+      <div class="form-grid">
+        <label class="span-2">Mission Title<input id="mission-title" required maxlength="120" placeholder="e.g. Finalize July AR Provision Review" /></label>
+        <label class="span-2">Expected Outcome<textarea id="mission-outcome" rows="2" required placeholder="What must be true when this mission is complete?"></textarea></label>
+        <label>Owner<input id="mission-owner" required value="Natthanaruk" /></label>
+        <label>Project / Workstream<input id="mission-project" placeholder="e.g. Monthly Management Pack" /></label>
+        <label>Due Date & Time<input id="mission-due" type="datetime-local" required /></label>
+        <label>Estimated Effort<select id="mission-effort"><option value="15">15 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="60" selected>60 min</option><option value="90">90 min</option><option value="120">2 hrs</option><option value="180">3+ hrs</option></select></label>
+        <label>Business Impact<select id="mission-impact"><option>Critical</option><option selected>High</option><option>Medium</option><option>Low</option></select></label>
+        <label>Consequence if Delayed<select id="mission-consequence"><option value="100">Severe — financial, customer or compliance impact</option><option value="80">High — blocks management or team delivery</option><option value="55" selected>Moderate — delay or rework</option><option value="25">Low — limited impact</option></select></label>
+        <label>Commitment<select id="mission-commitment"><option value="100">External / Management commitment</option><option value="70" selected>Internal team commitment</option><option value="35">Self-planned</option></select></label>
+        <label>Dependency Unlock<select id="mission-unlock"><option value="100">Unlocks multiple people or deliverables</option><option value="70">Unlocks one dependent activity</option><option value="30" selected>No major dependency</option></select></label>
+        <label>Focus Type<select id="mission-focus"><option>Deep Analysis</option><option>Decision</option><option>Creative / Writing</option><option>Review</option><option>Communication</option><option>Administrative</option></select></label>
+        <label>Energy Required<select id="mission-energy"><option>High</option><option selected>Medium</option><option>Low</option></select></label>
+        <label>Readiness<select id="mission-readiness"><option value="100" selected>Ready — all inputs available</option><option value="70">Mostly ready — minor gap</option><option value="35">Not ready — waiting for input</option><option value="0">Blocked</option></select></label>
+        <label>Status<select id="mission-status"><option>Not Started</option><option>In Progress</option><option>Waiting</option><option>Blocked</option><option>Completed</option></select></label>
+        <label class="span-2">Next Action<input id="mission-next" required placeholder="The exact next physical action" /></label>
+        <label class="span-2">Blocker / Dependency<textarea id="mission-blocker" rows="2" placeholder="Leave blank if ready"></textarea></label>
+      </div>
+      <div class="form-footer">
+        <button type="button" class="danger-link hidden" id="delete-mission">Delete Mission</button>
+        <div class="footer-spacer"></div>
+        <button type="button" class="secondary-btn" data-close-modal>Cancel</button>
+        <button type="submit" class="primary-btn">Save Mission</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="modal small-modal hidden" id="checkin-modal" role="dialog" aria-modal="true" aria-labelledby="checkin-title">
+    <div class="modal-header">
+      <div><span class="eyebrow">DAILY CAPACITY</span><h3 id="checkin-title">Daily Check-in</h3></div>
+      <button class="modal-close" data-close-modal>×</button>
+    </div>
+    <form id="checkin-form">
+      <div class="checkin-options">
+        <fieldset><legend>Current Energy</legend><div class="segmented"><label><input type="radio" name="energy" value="High" checked><span>High</span></label><label><input type="radio" name="energy" value="Medium"><span>Medium</span></label><label><input type="radio" name="energy" value="Low"><span>Low</span></label></div></fieldset>
+        <label>Available focus time today<input id="checkin-hours" type="number" min="0.5" max="12" step="0.5" value="4.5" /></label>
+        <label>Current uninterrupted block<select id="checkin-block"><option value="15">15 minutes</option><option value="30">30 minutes</option><option value="45">45 minutes</option><option value="60" selected>60 minutes</option><option value="90">90 minutes</option><option value="120">120+ minutes</option></select></label>
+        <label>Interruptions<select id="checkin-interruptions"><option value="Low">Low</option><option value="Medium" selected>Medium</option><option value="High">High</option></select></label>
+        <label>Today's main outcome<textarea id="checkin-outcome" rows="2" placeholder="One outcome that would make today successful"></textarea></label>
+      </div>
+      <div class="form-footer"><div class="footer-spacer"></div><button type="button" class="secondary-btn" data-close-modal>Cancel</button><button type="submit" class="primary-btn">Update Recommendation</button></div>
+    </form>
+  </section>
+
+  <section class="modal small-modal hidden" id="override-modal" role="dialog" aria-modal="true" aria-labelledby="override-title">
+    <div class="modal-header"><div><span class="eyebrow">MANUAL OVERRIDE</span><h3 id="override-title">Choose Recommended Mission</h3></div><button class="modal-close" data-close-modal>×</button></div>
+    <form id="override-form">
+      <label>Mission<select id="override-mission"></select></label>
+      <label>Reason<select id="override-reason"><option>Management instruction</option><option>Customer urgency</option><option>New information received</option><option>Personal focus preference</option><option>Other</option></select></label>
+      <div class="form-footer"><div class="footer-spacer"></div><button type="button" class="secondary-btn" data-close-modal>Cancel</button><button type="submit" class="primary-btn">Apply Override</button></div>
+    </form>
+  </section>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
