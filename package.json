@@ -1,0 +1,9 @@
+{
+  "name": "mission-control-phase3-lite",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check app.js"
+  }
+}

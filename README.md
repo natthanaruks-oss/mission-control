@@ -1,72 +1,64 @@
-# Mission Control — Phase 2
+# Mission Control — Phase 3 Lite
 
-A bilingual focus, priority and execution management application for daily work planning.
+Phase 2 plus a simple manual Cloud Backup.
 
-## Phase 2 functions
+## Included
 
-- Thai / English interface with saved language preference
-- Today Command Center and explainable `Recommended Now`
-- Daily energy and focus-capacity check-in
-- Mission intake, edit, delete, block, complete and manual override
-- Focus timer
-- Operational calendar with:
-  - Day view
-  - Week view
-  - Month view
-  - Year overview
-- Create, edit and delete calendar events
-- Schedule a Mission into a focus block without changing its original deadline
-- Calendar items for meetings, focus blocks, reviews, reminders and Mission deadlines
-- Unscheduled Mission list and visible-period workload summary
-- JSON data export/import
-- Local activity history for Phase 3 migration
-- Browser `localStorage` persistence
-- Responsive desktop, tablet and mobile layout
+- Thai / English
+- Day / Week / Month / Year Calendar
+- Mission recommendation and Focus Timer
+- Local JSON backup
+- Cloud Backup / Restore through Cloudflare Pages Functions + D1
 
-## Calendar design decision
+## Intentionally not included yet
 
-The detailed working views are **Day, Week and Month**. The Year view is an executive overview showing workload density by month rather than a detailed daily planner. This avoids overloading the screen while still supporting annual planning.
+- Multi-user workflow
+- Roles and permissions
+- Automatic background sync
+- External calendar integration
 
-## Run in Codespace
+This keeps the system simple and avoids silent data conflicts.
+
+## Local UI test
 
 ```bash
-cd /workspaces/mission-control
 python -m http.server 8080 --bind 0.0.0.0
 ```
 
-Open Port `8080` from the Codespace **PORTS** tab.
+Cloud Backup does not run through Python HTTP Server. It works after the Pages Functions and D1 binding are deployed.
 
-## Deploy to Cloudflare Pages
+## Cloudflare setup
 
-- Framework preset: **None**
-- Build command: leave blank
-- Build output directory: `/`
-- Root directory: `/`
+1. Create D1:
 
-All frontend file paths are relative and the application remains a static deployment.
+```bash
+npx wrangler d1 create mission-control-db
+```
 
-## Recommendation model
+2. Apply the schema:
 
-- Business Impact: 25%
-- Deadline / Latest Safe Start proxy: 20%
-- Consequence of Delay: 15%
-- Commitment: 10%
-- Dependency Unlock: 10%
-- Readiness: 10%
-- Cognitive Fit: 5%
-- Time Fit: 5%
+```bash
+npx wrangler d1 execute mission-control-db --remote --file=./migrations/0001_create_snapshot.sql
+```
 
-Blocked, waiting, completed, not-ready or unclear Missions are excluded or materially reduced before recommendation.
+3. In the existing Cloudflare Pages project, add:
 
-## Data limitation
+- D1 binding: `DB`
+- Encrypted secret: `SYNC_TOKEN`
 
-Phase 2 stores data in the current browser. Different users and devices do not share the same data yet.
+4. Push the repository to `main` so Pages deploys the `/functions` directory.
 
-The next-phase foundation is included in:
+5. Open Mission Control → Settings → Cloud Backup. Enter the same `SYNC_TOKEN`, then use:
 
-- `PHASE-3.md`
-- `cloudflare/schema.sql`
-- `cloudflare/worker.js`
-- `cloudflare/wrangler.toml.example`
+- **Test**
+- **Back Up Now**
+- **Restore**
 
-Do not deploy the Worker publicly before authentication, secrets and data-governance controls are approved.
+Protect the Pages application with Cloudflare Access before storing business data.
+
+## Checks
+
+```bash
+npm test
+npm run check
+```

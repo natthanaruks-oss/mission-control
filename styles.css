@@ -468,3 +468,21 @@ svg { width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 1
   .modal-header, .modal form { padding-left: 15px; padding-right: 15px; }
   .form-footer { flex-wrap: wrap; }
 }
+
+/* Phase 3 Lite: manual cloud backup */
+.cloud-tools { background: #f8fbff; }
+.cloud-tool-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.cloud-tool-heading p { margin-bottom: 10px; }
+.cloud-status { flex: 0 0 auto; padding: 5px 8px; border: 1px solid var(--slate-200); border-radius: 999px; background: #fff; color: var(--slate-650); font-size: 9px; font-weight: 700; }
+.cloud-status.ready { border-color: #a7e8c4; background: #effbf4; color: #177245; }
+.cloud-status.error { border-color: #ffd0d0; background: #fff4f4; color: #b42318; }
+.cloud-status.working { border-color: #bfd8ff; background: #f2f7ff; color: #175cd3; }
+.cloud-token-label { display: grid; gap: 6px; margin: 0 0 12px; color: var(--slate-700); font-size: 9px; font-weight: 700; }
+.cloud-token-label input { width: 100%; }
+.cloud-meta { display: block; margin-top: 10px; color: var(--slate-600); font-size: 8px; line-height: 1.45; }
+.cloud-tools .data-tool-actions { flex-wrap: wrap; }
+
+@media (max-width: 560px) {
+  .cloud-tool-heading { align-items: center; }
+  .cloud-tools .data-tool-actions > button { flex: 1 1 100%; }
+}

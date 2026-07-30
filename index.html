@@ -411,6 +411,19 @@
         <p>Export or restore missions, calendar events and preferences from this browser.</p>
         <div class="data-tool-actions"><button type="button" class="secondary-btn" id="export-data">Export JSON</button><button type="button" class="secondary-btn" id="import-data">Import JSON</button><input id="import-file" type="file" accept="application/json" hidden /></div>
       </div>
+      <div class="data-tools cloud-tools">
+        <div class="cloud-tool-heading">
+          <div><strong>Cloud Backup</strong><p>Back up or restore this device using Cloudflare D1.</p></div>
+          <span class="cloud-status" id="cloud-status">Not connected</span>
+        </div>
+        <label class="cloud-token-label">Sync Token<input id="cloud-token" type="password" autocomplete="off" placeholder="Enter token configured in Cloudflare" /></label>
+        <div class="data-tool-actions">
+          <button type="button" class="secondary-btn" id="cloud-test">Test</button>
+          <button type="button" class="secondary-btn" id="cloud-restore">Restore</button>
+          <button type="button" class="primary-btn" id="cloud-backup">Back Up Now</button>
+        </div>
+        <small class="cloud-meta" id="cloud-meta">Cloud backup is manual in this phase.</small>
+      </div>
       <div class="form-footer"><div class="footer-spacer"></div><button type="button" class="secondary-btn" data-close-modal>Cancel</button><button type="submit" class="primary-btn">Save Settings</button></div>
     </form>
   </section>

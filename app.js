@@ -8,7 +8,8 @@
     timer: 'missionControl.timer.v1',
     events: 'missionControl.events.v1',
     preferences: 'missionControl.preferences.v2',
-    activity: 'missionControl.activity.v2'
+    activity: 'missionControl.activity.v2',
+    cloud: 'missionControl.cloud.v3'
   };
 
   const IMPACT_SCORES = { Critical: 100, High: 80, Medium: 55, Low: 25 };
@@ -57,6 +58,7 @@
       duration: 'Duration', focusBlockType: 'Focus Block Type', deepFocusWork: 'Deep / Focus Work', coordinationType: 'Coordination', addToCalendar: 'Add to Calendar',
       defaultCalendarView: 'Default Calendar View', workdayStarts: 'Workday Starts', workdayEnds: 'Workday Ends', language: 'Language', dataBackup: 'Data Backup',
       dataBackupCopy: 'Export or restore missions, calendar events and preferences from this browser.', exportJson: 'Export JSON', importJson: 'Import JSON', saveSettings: 'Save Settings', yearOverview: 'Year Overview',
+      cloudBackup: 'Cloud Backup', cloudBackupCopy: 'Back up or restore this device using Cloudflare D1.', syncToken: 'Sync Token', cloudNotConnected: 'Not connected', cloudReady: 'Connected', cloudWorking: 'Working…', cloudManual: 'Cloud backup is manual in this phase.', cloudLastBackup: 'Last backup: {time}', cloudNoBackup: 'No cloud backup found.', cloudSaved: 'Cloud backup completed.', cloudRestored: 'Cloud backup restored.', cloudConnectionOk: 'Cloud connection is ready.', cloudError: 'Cloud backup failed.', tokenRequired: 'Enter the Sync Token first.', testConnection: 'Test', restoreCloud: 'Restore', backupCloud: 'Back Up Now', cloudTokenPlaceholder: 'Enter token configured in Cloudflare', confirmCloudRestore: 'Replace this browser data with the cloud backup?',
       plannedHours: 'Planned hours', focusBlocks: 'Focus blocks', deadlines: 'Deadlines', meetings: 'Meetings', visiblePeriod: 'Visible period', nothingScheduled: 'Nothing scheduled for this day.',
       schedule: 'Schedule', dueLabel: 'Due', allDayDeadline: 'Mission deadline', calendarEmpty: 'No calendar items', more: 'more', noUnscheduled: 'All active missions have a planned focus block.',
       eventCreated: 'Calendar event created.', eventUpdated: 'Calendar event updated.', eventDeleted: 'Calendar event deleted.', missionScheduled: 'Mission added to calendar.',
@@ -107,6 +109,7 @@
       duration: 'ระยะเวลา', focusBlockType: 'ประเภทช่วงทำงาน', deepFocusWork: 'งานโฟกัส / วิเคราะห์ลึก', coordinationType: 'ประสานงาน', addToCalendar: 'เพิ่มลงปฏิทิน',
       defaultCalendarView: 'มุมมองปฏิทินเริ่มต้น', workdayStarts: 'เวลาเริ่มงาน', workdayEnds: 'เวลาสิ้นสุดงาน', language: 'ภาษา', dataBackup: 'สำรองข้อมูล',
       dataBackupCopy: 'ส่งออกหรือกู้คืนภารกิจ ปฏิทิน และการตั้งค่าจาก Browser นี้', exportJson: 'ส่งออก JSON', importJson: 'นำเข้า JSON', saveSettings: 'บันทึกการตั้งค่า', yearOverview: 'ภาพรวมรายปี',
+      cloudBackup: 'สำรองข้อมูลบน Cloud', cloudBackupCopy: 'สำรองหรือกู้คืนข้อมูลของอุปกรณ์นี้ด้วย Cloudflare D1', syncToken: 'Sync Token', cloudNotConnected: 'ยังไม่เชื่อมต่อ', cloudReady: 'เชื่อมต่อแล้ว', cloudWorking: 'กำลังดำเนินการ…', cloudManual: 'Phase นี้สำรองข้อมูลบน Cloud แบบ Manual', cloudLastBackup: 'สำรองล่าสุด: {time}', cloudNoBackup: 'ยังไม่มีข้อมูลสำรองบน Cloud', cloudSaved: 'สำรองข้อมูลบน Cloud สำเร็จ', cloudRestored: 'กู้คืนข้อมูลจาก Cloud สำเร็จ', cloudConnectionOk: 'เชื่อมต่อ Cloud พร้อมใช้งาน', cloudError: 'การสำรองข้อมูลบน Cloud ไม่สำเร็จ', tokenRequired: 'กรุณากรอก Sync Token ก่อน', testConnection: 'ทดสอบ', restoreCloud: 'กู้คืน', backupCloud: 'สำรองตอนนี้', cloudTokenPlaceholder: 'กรอก Token ที่ตั้งค่าใน Cloudflare', confirmCloudRestore: 'แทนที่ข้อมูลใน Browser นี้ด้วยข้อมูลสำรองบน Cloud หรือไม่?',
       plannedHours: 'ชั่วโมงที่วางแผน', focusBlocks: 'ช่วงโฟกัส', deadlines: 'กำหนดส่ง', meetings: 'การประชุม', visiblePeriod: 'ช่วงที่แสดง', nothingScheduled: 'ไม่มีรายการในวันนี้',
       schedule: 'จัดเวลา', dueLabel: 'กำหนดส่ง', allDayDeadline: 'กำหนดส่งภารกิจ', calendarEmpty: 'ไม่มีรายการในปฏิทิน', more: 'รายการเพิ่มเติม', noUnscheduled: 'ภารกิจที่เปิดอยู่ทั้งหมดได้รับการจัดเวลาแล้ว',
       eventCreated: 'สร้างรายการในปฏิทินแล้ว', eventUpdated: 'อัปเดตรายการในปฏิทินแล้ว', eventDeleted: 'ลบรายการในปฏิทินแล้ว', missionScheduled: 'จัดเวลาภารกิจลงปฏิทินแล้ว',
@@ -142,7 +145,8 @@
     ['Unlocks multiple people or deliverables', 'ปลดล็อกหลายคนหรือหลาย Deliverables'], ['Unlocks one dependent activity', 'ปลดล็อกงานที่เกี่ยวข้องหนึ่งรายการ'], ['No major dependency', 'ไม่มี Dependency สำคัญ'],
     ['Ready — all inputs available', 'พร้อม — ข้อมูลครบ'], ['Mostly ready — minor gap', 'เกือบพร้อม — ขาดข้อมูลเล็กน้อย'], ['Not ready — waiting for input', 'ยังไม่พร้อม — รอข้อมูล'],
     ['Management instruction', 'คำสั่งจาก Management'], ['Customer urgency', 'ความเร่งด่วนของลูกค้า'], ['New information received', 'ได้รับข้อมูลใหม่'], ['Personal focus preference', 'เลือกตาม Focus ส่วนบุคคล'], ['Other', 'อื่น ๆ'],
-    ['Review / Decision', 'ตรวจทาน / ตัดสินใจ'], ['Good morning. Let’s win today.', 'สวัสดี วันนี้เลือกงานสำคัญแล้วทำให้สำเร็จ'], ['Not completed', 'ยังไม่เสร็จ'], ['No linked mission', 'ไม่เชื่อมโยงภารกิจ']
+    ['Review / Decision', 'ตรวจทาน / ตัดสินใจ'], ['Good morning. Let’s win today.', 'สวัสดี วันนี้เลือกงานสำคัญแล้วทำให้สำเร็จ'], ['Not completed', 'ยังไม่เสร็จ'], ['No linked mission', 'ไม่เชื่อมโยงภารกิจ'],
+    ['Cloud Backup', 'สำรองข้อมูลบน Cloud'], ['Back up or restore this device using Cloudflare D1.', 'สำรองหรือกู้คืนข้อมูลของอุปกรณ์นี้ด้วย Cloudflare D1'], ['Sync Token', 'Sync Token'], ['Not connected', 'ยังไม่เชื่อมต่อ'], ['Test', 'ทดสอบ'], ['Restore', 'กู้คืน'], ['Back Up Now', 'สำรองตอนนี้'], ['Cloud backup is manual in this phase.', 'Phase นี้สำรองข้อมูลบน Cloud แบบ Manual']
   ];
 
   const viewMeta = {
@@ -183,6 +187,7 @@
   let timer = store.load(STORAGE_KEYS.timer, { taskId: null, remaining: 0, running: false, lastTick: null });
   let calendarEvents = loadEvents();
   let activityLog = store.load(STORAGE_KEYS.activity, []);
+  let cloud = store.load(STORAGE_KEYS.cloud, { token: '', revision: 0, lastBackupAt: null });
   let timerInterval = null;
   let searchTerm = '';
   let activeView = 'today';
@@ -310,6 +315,134 @@
   function savePreferences() { store.save(STORAGE_KEYS.preferences, preferences); }
   function saveCheckin() { store.save(STORAGE_KEYS.checkin, checkin); }
   function saveTimer() { store.save(STORAGE_KEYS.timer, timer); }
+  function saveCloud() { store.save(STORAGE_KEYS.cloud, cloud); }
+
+  function cloudPayload() {
+    return {
+      schemaVersion: 3,
+      savedAt: new Date().toISOString(),
+      missions,
+      calendarEvents,
+      checkin,
+      preferences,
+      activityLog
+    };
+  }
+
+  function validateCloudPayload(payload) {
+    return payload && Array.isArray(payload.missions) && Array.isArray(payload.calendarEvents) && payload.checkin && payload.preferences;
+  }
+
+  function setCloudStatus(key, tone = '') {
+    const node = el('cloud-status');
+    if (!node) return;
+    node.textContent = t(key);
+    node.className = `cloud-status ${tone}`.trim();
+  }
+
+  function renderCloudState() {
+    const tokenInput = el('cloud-token');
+    if (!tokenInput) return;
+    tokenInput.value = cloud.token || '';
+    tokenInput.placeholder = t('cloudTokenPlaceholder');
+    setCloudStatus(cloud.token ? 'cloudReady' : 'cloudNotConnected', cloud.token ? 'ready' : '');
+    el('cloud-meta').textContent = cloud.lastBackupAt ? t('cloudLastBackup', { time: formatDateTime(cloud.lastBackupAt) }) : t('cloudManual');
+  }
+
+  function setCloudBusy(isBusy) {
+    ['cloud-test', 'cloud-restore', 'cloud-backup'].forEach(id => { if (el(id)) el(id).disabled = isBusy; });
+    if (isBusy) setCloudStatus('cloudWorking', 'working');
+  }
+
+  function readCloudToken() {
+    const token = el('cloud-token')?.value.trim() || cloud.token || '';
+    if (!token) throw new Error('TOKEN_REQUIRED');
+    cloud.token = token;
+    saveCloud();
+    return token;
+  }
+
+  async function cloudRequest(method, body = null) {
+    const token = readCloudToken();
+    const response = await fetch('/api/snapshot', {
+      method,
+      headers: { 'content-type': 'application/json', 'x-mission-control-sync-token': token },
+      body: body ? JSON.stringify(body) : null
+    });
+    const data = await response.json().catch(() => ({ ok: false, error: `HTTP ${response.status}` }));
+    if (!response.ok || !data.ok) throw new Error(data.error || `HTTP ${response.status}`);
+    return data;
+  }
+
+  async function testCloudConnection() {
+    setCloudBusy(true);
+    try {
+      await cloudRequest('GET');
+      setCloudStatus('cloudReady', 'ready');
+      toast(t('cloudConnectionOk'));
+    } catch (error) {
+      console.error(error);
+      setCloudStatus(error.message === 'TOKEN_REQUIRED' ? 'tokenRequired' : 'cloudError', 'error');
+      toast(t(error.message === 'TOKEN_REQUIRED' ? 'tokenRequired' : 'cloudError'));
+    } finally {
+      setCloudBusy(false);
+    }
+  }
+
+  async function backupToCloud() {
+    setCloudBusy(true);
+    try {
+      const data = await cloudRequest('PUT', { payload: cloudPayload() });
+      cloud.revision = Number(data.revision || 0);
+      cloud.lastBackupAt = data.updatedAt || new Date().toISOString();
+      saveCloud();
+      renderCloudState();
+      toast(t('cloudSaved'));
+    } catch (error) {
+      console.error(error);
+      setCloudStatus(error.message === 'TOKEN_REQUIRED' ? 'tokenRequired' : 'cloudError', 'error');
+      toast(t(error.message === 'TOKEN_REQUIRED' ? 'tokenRequired' : 'cloudError'));
+    } finally {
+      setCloudBusy(false);
+    }
+  }
+
+  async function restoreFromCloud() {
+    setCloudBusy(true);
+    try {
+      const data = await cloudRequest('GET');
+      if (!data.exists || !data.payload) {
+        setCloudStatus('cloudReady', 'ready');
+        return toast(t('cloudNoBackup'));
+      }
+      if (!validateCloudPayload(data.payload)) throw new Error('INVALID_SNAPSHOT');
+      if (!confirm(t('confirmCloudRestore'))) { setCloudStatus('cloudReady', 'ready'); return; }
+      missions = data.payload.missions;
+      calendarEvents = data.payload.calendarEvents;
+      checkin = { ...checkin, ...data.payload.checkin };
+      preferences = { ...preferences, ...data.payload.preferences };
+      activityLog = Array.isArray(data.payload.activityLog) ? data.payload.activityLog : activityLog;
+      manualOverride = null;
+      timer = { taskId: null, remaining: 0, running: false, lastTick: null };
+      saveMissions(); saveEvents(); saveCheckin(); savePreferences(); saveTimer();
+      store.save(STORAGE_KEYS.activity, activityLog);
+      localStorage.removeItem(STORAGE_KEYS.override);
+      cloud.revision = Number(data.revision || 0);
+      cloud.lastBackupAt = data.updatedAt || data.payload.savedAt || new Date().toISOString();
+      saveCloud();
+      calendarState.mode = preferences.calendarView || 'week';
+      logActivity('restore', 'cloud', 'snapshot', cloud.lastBackupAt);
+      closeModals();
+      renderAll();
+      toast(t('cloudRestored'));
+    } catch (error) {
+      console.error(error);
+      setCloudStatus(error.message === 'TOKEN_REQUIRED' ? 'tokenRequired' : 'cloudError', 'error');
+      toast(t(error.message === 'TOKEN_REQUIRED' ? 'tokenRequired' : 'cloudError'));
+    } finally {
+      setCloudBusy(false);
+    }
+  }
 
   function logActivity(action, entity, entityId, detail = '') {
     activityLog.unshift({ id: uid(), at: new Date().toISOString(), action, entity, entityId, detail });
@@ -653,7 +786,7 @@
   }
 
   function openSettingsModal() {
-    el('setting-language').value = preferences.language; el('setting-calendar-view').value = preferences.calendarView; el('setting-work-start').value = String(preferences.workdayStart); el('setting-work-end').value = String(preferences.workdayEnd); openModal('settings-modal'); applyLanguage();
+    el('setting-language').value = preferences.language; el('setting-calendar-view').value = preferences.calendarView; el('setting-work-start').value = String(preferences.workdayStart); el('setting-work-end').value = String(preferences.workdayEnd); renderCloudState(); openModal('settings-modal'); applyLanguage();
   }
 
   function nextRoundedHour() {
@@ -704,6 +837,7 @@
   function handleSettingsSubmit(event) {
     event.preventDefault(); preferences = { ...preferences, language: el('setting-language').value, calendarView: el('setting-calendar-view').value, workdayStart: Number(el('setting-work-start').value), workdayEnd: Number(el('setting-work-end').value) };
     if (preferences.workdayEnd <= preferences.workdayStart) preferences.workdayEnd = preferences.workdayStart + 8;
+    cloud.token = el('cloud-token')?.value.trim() || cloud.token || ''; saveCloud();
     calendarState.mode = preferences.calendarView; savePreferences(); logActivity('update', 'settings', 'preferences', preferences.language); closeModals(); renderAll(); toast(t('settingsSaved'));
   }
 
@@ -811,6 +945,9 @@
     };
     qsa('[placeholder]').forEach(input => { const key = placeholderMap[input.placeholder]; if (key) input.placeholder = t(key); });
     const languageToggle = el('language-toggle'); if (languageToggle) languageToggle.innerHTML = `<span class="${preferences.language === 'th' ? 'lang-active' : ''}">TH</span><span class="${preferences.language === 'en' ? 'lang-active' : ''}">EN</span>`;
+    const pendingCloudToken = el('cloud-token')?.value || '';
+    renderCloudState();
+    if (pendingCloudToken && el('cloud-token')) el('cloud-token').value = pendingCloudToken;
     qsa('[data-dynamic-target]').forEach(node => node.dataset.dynamic = 'true');
   }
 
@@ -852,6 +989,7 @@
     qsa('.nav-item').forEach(button => button.addEventListener('click', () => { if (window.innerWidth <= 860) closeSidebar(); }));
     el('calendar-prev').addEventListener('click', () => moveCalendar(-1)); el('calendar-next').addEventListener('click', () => moveCalendar(1)); el('calendar-today').addEventListener('click', () => { calendarState.cursor = startOfDay(new Date()); renderCalendar(); applyLanguage(); }); el('add-calendar-event').addEventListener('click', () => openEventModal());
     el('export-data').addEventListener('click', exportData); el('import-data').addEventListener('click', () => el('import-file').click()); el('import-file').addEventListener('change', event => { const [file] = event.target.files; if (file) importData(file); event.target.value = ''; });
+    el('cloud-test').addEventListener('click', testCloudConnection); el('cloud-backup').addEventListener('click', backupToCloud); el('cloud-restore').addEventListener('click', restoreFromCloud);
     document.addEventListener('keydown', event => { if (event.key === 'Escape') closeModals(); });
   }
 
