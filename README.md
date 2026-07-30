@@ -1,44 +1,51 @@
-# Mission Control MVP
+# Mission Control — Phase 2
 
-A working browser-based prototype for daily work prioritization, focus management and management visibility.
+A bilingual focus, priority and execution management application for daily work planning.
 
-## Included
+## Phase 2 functions
 
-- Production-style responsive UI aligned with the approved Mission Control mockup
-- Today Command Center and Recommended Now panel
-- Daily energy, capacity and uninterrupted-focus check-in
-- Explainable task recommendation with a visible Priority Score and Why Now
-- Must Win / Deep Focus / Quick Win / Coordination / Waiting board
-- Mission intake, edit, delete and completion flow
-- Focus timer with pause, resume and completion
-- Blocker, reschedule, break-into-steps and manual override actions
-- Workload donut, control alerts, search and mission queue table
+- Thai / English interface with saved language preference
+- Today Command Center and explainable `Recommended Now`
+- Daily energy and focus-capacity check-in
+- Mission intake, edit, delete, block, complete and manual override
+- Focus timer
+- Operational calendar with:
+  - Day view
+  - Week view
+  - Month view
+  - Year overview
+- Create, edit and delete calendar events
+- Schedule a Mission into a focus block without changing its original deadline
+- Calendar items for meetings, focus blocks, reviews, reminders and Mission deadlines
+- Unscheduled Mission list and visible-period workload summary
+- JSON data export/import
+- Local activity history for Phase 3 migration
 - Browser `localStorage` persistence
-- Inline SVG icon system with no external UI dependency
-- Desktop, tablet and mobile navigation behavior
+- Responsive desktop, tablet and mobile layout
 
-## Run locally
+## Calendar design decision
 
-Open `index.html` directly in a modern browser, or serve the folder:
+The detailed working views are **Day, Week and Month**. The Year view is an executive overview showing workload density by month rather than a detailed daily planner. This avoids overloading the screen while still supporting annual planning.
+
+## Run in Codespace
 
 ```bash
-python -m http.server 8080
+cd /workspaces/mission-control
+python -m http.server 8080 --bind 0.0.0.0
 ```
 
-Then open `http://localhost:8080`.
+Open Port `8080` from the Codespace **PORTS** tab.
 
 ## Deploy to Cloudflare Pages
 
-1. Upload this folder to a GitHub repository.
-2. In Cloudflare Pages, connect the repository.
-3. Framework preset: **None**.
-4. Build command: leave blank.
-5. Build output directory: `/`.
-6. Deploy.
+- Framework preset: **None**
+- Build command: leave blank
+- Build output directory: `/`
+- Root directory: `/`
+
+All frontend file paths are relative and the application remains a static deployment.
 
 ## Recommendation model
-
-The MVP uses the following weighted score:
 
 - Business Impact: 25%
 - Deadline / Latest Safe Start proxy: 20%
@@ -49,8 +56,17 @@ The MVP uses the following weighted score:
 - Cognitive Fit: 5%
 - Time Fit: 5%
 
-Hard rules reduce or remove recommendations for completed, blocked, waiting, not-ready or unclear missions.
+Blocked, waiting, completed, not-ready or unclear Missions are excluded or materially reduced before recommendation.
 
-## MVP limitation
+## Data limitation
 
-Data is stored only in the current browser using `localStorage`. Team use, audit trails, permissions, approval workflows, calendar synchronization and multi-device access require a central backend such as Cloudflare Workers + D1.
+Phase 2 stores data in the current browser. Different users and devices do not share the same data yet.
+
+The next-phase foundation is included in:
+
+- `PHASE-3.md`
+- `cloudflare/schema.sql`
+- `cloudflare/worker.js`
+- `cloudflare/wrangler.toml.example`
+
+Do not deploy the Worker publicly before authentication, secrets and data-governance controls are approved.
