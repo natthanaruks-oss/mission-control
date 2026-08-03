@@ -41,7 +41,7 @@ chmod 600 .env
 export CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID
 
 echo
-"${WRANGLER[@]}" whoami
+echo "Cloudflare credentials loaded."
 
 get_db_id() {
   "${WRANGLER[@]}" d1 list --json | node --input-type=module -e '
