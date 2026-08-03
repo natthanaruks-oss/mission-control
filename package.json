@@ -1,9 +1,12 @@
 {
-  "name": "mission-control-phase3-lite",
+  "name": "mission-control-mobile",
   "private": true,
+  "version": "4.1.0",
   "type": "module",
   "scripts": {
     "test": "node --test",
-    "check": "node --check app.js"
+    "check": "find . -path './.git' -prune -o -path './.wrangler' -prune -o -name '*.js' -type f -print0 | xargs -0 -n1 node --check",
+    "dev": "npx wrangler@latest pages dev .",
+    "import:notion": "node scripts/import-notion.mjs"
   }
 }

@@ -1,434 +1,188 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#071e31" />
-  <meta name="description" content="Mission Control — focus-based priority and execution management." />
-  <title>Mission Control — Focus. Prioritize. Execute.</title>
-  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="./styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Mission Control">
+  <meta name="description" content="A minimal daily focus list that follows your account across devices.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Mission Control</title>
 </head>
 <body>
-  <svg class="svg-sprite" aria-hidden="true">
-    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-7H9v7H3.5a.5.5 0 0 1-.5-.5z"/><path d="M8 21v-8h8v8"/></symbol>
-    <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h12M9 12h12M9 18h12"/><rect x="3" y="4" width="3" height="3" rx=".7"/><rect x="3" y="10.5" width="3" height="3" rx=".7"/><rect x="3" y="17" width="3" height="3" rx=".7"/></symbol>
-    <symbol id="i-user-card" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2.4"/><path d="M5.8 17c.7-2.4 2-3.6 3.2-3.6s2.6 1.2 3.2 3.6M14.5 9H19M14.5 13H19"/></symbol>
-    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
-    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18M7 14h2M11 14h2M15 14h2M7 18h2M11 18h2"/></symbol>
-    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/><path d="m3 8 6-4 6 7 6-5"/></symbol>
-    <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5V3h6v1.5M9 10h6M9 14h6M9 18h4"/></symbol>
-    <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v5l3 2M9 2h6M17.5 5.5 19 4"/></symbol>
-    <symbol id="i-archive" viewBox="0 0 24 24"><path d="M4 7h16l-1 14H5z"/><path d="M3 3h18v4H3zM9 11h6"/></symbol>
-    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1A1.7 1.7 0 0 0 9 4.6 1.7 1.7 0 0 0 10 3v-.2h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1z"/></symbol>
-    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
-    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
-    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 8h18c0-1-3-1-3-8M10 21h4"/></symbol>
-    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.7 9a2.5 2.5 0 0 1 4.8 1c0 2-2.5 2.2-2.5 4M12 18h.01"/></symbol>
-    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
-    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
-    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="m13 2-8 12h7l-1 8 8-12h-7z"/></symbol>
-    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2.5 20h19z"/><path d="M12 9v5M12 17h.01"/></symbol>
-    <symbol id="i-risk" viewBox="0 0 24 24"><path d="M5 20V10M10 20V5M15 20v-8M20 20V3"/><path d="M3 20h19"/></symbol>
-    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
-    <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></symbol>
-    <symbol id="i-calendar-plus" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18M12 13v5M9.5 15.5h5"/></symbol>
-    <symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m5.6 5.6 12.8 12.8"/></symbol>
-    <symbol id="i-branch" viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M6 7v7a4 4 0 0 0 4 4h6M8 8h6a4 4 0 0 0 4-4"/></symbol>
-    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L9 17l-4 1 1-4z"/></symbol>
-    <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></symbol>
-    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
-    <symbol id="i-file-chart" viewBox="0 0 24 24"><path d="M6 2h8l5 5v15H6z"/><path d="M14 2v6h6M9 17v-3M13 17v-6M17 17v-4"/></symbol>
-    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
-    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M18 12a6 6 0 0 0-10-4.5L5 10M6 12a6 6 0 0 0 10 4.5l3-2.5"/></symbol>
-    <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
-  </svg>
+  <div id="offlineBanner" class="offline-banner" hidden></div>
 
-  <div class="app-shell">
-    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
-      <div class="brand">
-        <div>
-          <h1>MISSION CONTROL</h1>
-          <p>Focus. Prioritize. Execute.</p>
-        </div>
-        <button class="sidebar-close" id="sidebar-close" aria-label="Close navigation"><svg><use href="#i-x"/></svg></button>
+  <main id="authView" class="auth-view">
+    <section class="auth-card" aria-labelledby="authTitle">
+      <div class="brand-mark" aria-hidden="true">M</div>
+      <p class="eyebrow">MISSION CONTROL</p>
+      <h1 id="authTitle">โฟกัสเฉพาะสิ่งที่ต้องทำ</h1>
+      <p id="authSubtitle" class="muted">ลงชื่อเข้าใช้จากอุปกรณ์ใดก็เห็นรายการเดิม</p>
+
+      <form id="authForm" class="stack" novalidate>
+        <label>
+          <span id="userIdLabel">User ID</span>
+          <input id="userIdInput" name="userId" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="40" required>
+        </label>
+        <label>
+          <span id="passcodeLabel">Passcode</span>
+          <input id="passcodeInput" name="passcode" type="password" autocomplete="current-password" minlength="6" maxlength="128" required>
+        </label>
+        <p id="authHint" class="field-hint">อย่างน้อย 6 ตัวอักษร</p>
+        <button id="authSubmit" class="button button-primary" type="submit">เข้าสู่ระบบ</button>
+      </form>
+
+      <button id="authModeToggle" class="text-button" type="button">สร้างบัญชีใหม่</button>
+      <button id="authLanguage" class="language-button" type="button">EN</button>
+      <p id="authError" class="form-error" role="alert" hidden></p>
+    </section>
+  </main>
+
+  <div id="appView" class="app-shell" hidden>
+    <header class="app-header">
+      <div>
+        <p id="todayLabel" class="eyebrow">วันนี้</p>
+        <h1 id="todayDate">—</h1>
       </div>
+      <button id="accountButton" class="avatar-button" type="button" aria-label="Account">U</button>
+    </header>
 
-      <div class="profile-card">
-        <div class="avatar" aria-label="Natthanaruk S.">
-          <svg viewBox="0 0 64 64" role="img"><circle cx="32" cy="32" r="31" fill="#f3f7fb"/><path d="M16 57c2-12 8-18 16-18s14 6 16 18" fill="#c6d8e7"/><circle cx="32" cy="25" r="11" fill="#e6bd9b"/><path d="M21 24c.5-9 5-14 12-14 6.5 0 10.5 4.8 10.5 12.5-4-1-7-3.2-9.5-6.5-2 4-6.2 6.5-13 8z" fill="#26394d"/><path d="M25 31c2.2 2.4 4.5 3.6 7 3.6s4.8-1.2 7-3.6" fill="none" stroke="#9b5f47" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <main class="app-content">
+      <section class="time-selector" aria-labelledby="timeQuestion">
+        <p id="timeQuestion">ตอนนี้มีเวลากี่นาที?</p>
+        <div id="timeChips" class="chip-row" role="group" aria-label="Available time">
+          <button class="chip" type="button" data-minutes="15">15</button>
+          <button class="chip is-active" type="button" data-minutes="30">30</button>
+          <button class="chip" type="button" data-minutes="60">60</button>
+          <button class="chip" type="button" data-minutes="90">90+</button>
         </div>
-        <div class="profile-copy">
-          <strong>Natthanaruk S.</strong>
-          <span>Sales Operations &amp; BI</span>
-          <small><i></i> Online</small>
-        </div>
-      </div>
+      </section>
 
-      <nav class="nav-list">
-        <button class="nav-item active" data-view="today"><svg><use href="#i-home"/></svg><span>Today Command Center</span></button>
-        <button class="nav-item" data-view="queue"><svg><use href="#i-list"/></svg><span>Mission Queue</span></button>
-        <button class="nav-item" data-view="my"><svg><use href="#i-user-card"/></svg><span>My Missions</span></button>
-        <button class="nav-item" data-view="projects"><svg><use href="#i-grid"/></svg><span>Projects / Workstreams</span></button>
-        <button class="nav-item" data-view="calendar"><svg><use href="#i-calendar"/></svg><span>Calendar</span></button>
-        <button class="nav-item" data-view="reports"><svg><use href="#i-chart"/></svg><span>Reports &amp; Radar</span></button>
-        <button class="nav-item" data-action="open-intake"><svg><use href="#i-clipboard"/></svg><span>Mission Intake</span></button>
-        <button class="nav-item" data-action="scroll-timer"><svg><use href="#i-timer"/></svg><span>Focus Timer</span></button>
-        <button class="nav-item" data-view="archive"><svg><use href="#i-archive"/></svg><span>Archive</span></button>
-        <button class="nav-item" data-action="open-settings"><svg><use href="#i-settings"/></svg><span>Settings</span></button>
+      <section id="recommendationCard" class="recommendation-card" aria-live="polite">
+        <div class="recommendation-topline">
+          <span id="recommendedLabel">ทำตอนนี้</span>
+          <span id="recommendedTime" class="soft-badge">30 นาที</span>
+        </div>
+        <h2 id="recommendedTitle">ยังไม่มีงาน</h2>
+        <p id="recommendedReason" class="muted">เพิ่มงานแรกเพื่อให้ระบบช่วยเลือก</p>
+        <button id="completeRecommended" class="button button-light" type="button" hidden>เสร็จแล้ว</button>
+      </section>
+
+      <nav class="tabs" aria-label="Task views">
+        <button id="tabToday" class="tab is-active" type="button" data-view="today">วันนี้ <span id="todayCount">0</span></button>
+        <button id="tabUpcoming" class="tab" type="button" data-view="upcoming">ถัดไป <span id="upcomingCount">0</span></button>
+        <button id="tabDone" class="tab" type="button" data-view="done">เสร็จ <span id="doneCount">0</span></button>
       </nav>
 
-      <button class="quick-add" data-action="open-intake"><svg><use href="#i-plus"/></svg><span>Quick Add Mission</span></button>
-
-      <div class="checkin-mini">
-        <div>
-          <strong><span class="check-dot"><svg><use href="#i-check"/></svg></span>Daily Check-in</strong>
-          <small id="checkin-time">Not completed</small>
-        </div>
-        <button data-action="open-checkin">Update</button>
-      </div>
-    </aside>
-    <button class="sidebar-scrim" id="sidebar-scrim" aria-label="Close navigation"></button>
-
-    <main class="main-content">
-      <header class="topbar">
-        <button class="mobile-menu icon-btn" id="mobile-menu" aria-label="Open navigation"><svg><use href="#i-menu"/></svg></button>
-        <div class="heading-copy">
-          <h2 id="page-title">Today Command Center</h2>
-          <p id="greeting">Good morning. Let’s win today.</p>
-        </div>
-        <div class="top-actions">
-          <button class="language-toggle" id="language-toggle" type="button" aria-label="Switch language"><span class="lang-active">TH</span><span>EN</span></button>
-          <button class="icon-btn" id="search-toggle" aria-label="Search"><svg><use href="#i-search"/></svg></button>
-          <button class="icon-btn notification" id="notification-btn" aria-label="Notifications"><svg><use href="#i-bell"/></svg><b id="notification-count">0</b></button>
-          <button class="icon-btn" id="help-btn" aria-label="Help"><svg><use href="#i-help"/></svg></button>
-        </div>
-      </header>
-
-      <section id="search-panel" class="search-panel hidden">
-        <div class="search-input-wrap"><svg><use href="#i-search"/></svg><input id="global-search" type="search" placeholder="Search missions, projects, owners or next actions…" /></div>
-        <button id="clear-search">Clear</button>
-      </section>
-
-      <section id="today-view" class="view active-view">
-        <div class="content-grid">
-          <div class="primary-column">
-            <section class="metrics" aria-label="Daily status summary">
-              <article class="metric-card">
-                <div class="metric-icon blue"><svg><use href="#i-clock"/></svg></div>
-                <div><span>Available Focus Time</span><strong id="metric-focus">4.5 hrs</strong><small id="metric-capacity">of 8.0 hrs</small></div>
-              </article>
-              <article class="metric-card">
-                <div class="metric-icon green"><svg><use href="#i-bolt"/></svg></div>
-                <div><span>Energy Level</span><strong id="metric-energy">High</strong><small id="metric-energy-time">Update check-in</small></div>
-              </article>
-              <article class="metric-card">
-                <div class="metric-icon purple"><svg><use href="#i-calendar"/></svg></div>
-                <div><span>Today's Meetings</span><strong>2</strong><small>Next: 2:00 PM</small></div>
-              </article>
-              <article class="metric-card">
-                <div class="metric-icon red"><svg><use href="#i-alert"/></svg></div>
-                <div><span>Overdue Missions</span><strong id="metric-overdue">0</strong><small>Needs your action</small></div>
-              </article>
-              <article class="metric-card">
-                <div class="metric-icon amber"><svg><use href="#i-risk"/></svg></div>
-                <div><span>At-Risk Missions</span><strong id="metric-risk">0</strong><small>Due soon or at risk</small></div>
-              </article>
-            </section>
-
-            <section class="panel recommended-panel" id="recommended-panel">
-              <div class="section-heading">
-                <div>
-                  <span class="section-icon"><svg><use href="#i-target"/></svg></span>
-                  <h3>Recommended Now</h3>
-                </div>
-                <button class="link-btn icon-link" id="refresh-recommendation"><svg><use href="#i-refresh"/></svg>Recalculate</button>
-              </div>
-              <div id="recommended-content" class="recommended-content"></div>
-            </section>
-
-            <section class="panel today-plan-panel">
-              <div class="section-heading plan-heading">
-                <div>
-                  <h3>Today Plan</h3>
-                  <span id="queue-count" class="muted-label">Mission Queue</span>
-                </div>
-                <div class="plan-controls">
-                  <select id="plan-filter" aria-label="Filter missions">
-                    <option value="all">All active</option>
-                    <option value="mine">My missions</option>
-                    <option value="overdue">Overdue</option>
-                    <option value="risk">At risk</option>
-                  </select>
-                  <button class="link-btn" id="view-all-btn">View All</button>
-                </div>
-              </div>
-              <div id="mission-board" class="mission-board"></div>
-            </section>
-
-            <section class="panel focus-strip" id="focus-timer-section">
-              <div class="focus-summary">
-                <div class="timer-icon"><svg><use href="#i-timer"/></svg></div>
-                <div>
-                  <div class="focus-title-row"><strong>Focus Timer</strong><span id="timer-state">Not running</span></div>
-                  <small id="timer-task">Start a mission to begin focus timer</small>
-                </div>
-              </div>
-              <div class="timer-display" id="timer-display">00:00</div>
-              <div class="timer-actions">
-                <button id="timer-pause" class="secondary-btn" disabled>Pause</button>
-                <button id="timer-complete" class="primary-btn" disabled>Complete</button>
-              </div>
-              <div class="focus-tip">
-                <strong>Focus Tip</strong>
-                <em>“Protect your highest-energy block for work that creates real impact.”</em>
-              </div>
-            </section>
-          </div>
-
-          <aside class="right-rail">
-            <section class="panel schedule-panel">
-              <div class="rail-heading">
-                <h3>Today's Schedule</h3>
-                <button class="link-btn" data-view="calendar">View Calendar</button>
-              </div>
-              <p class="schedule-date" id="today-date"></p>
-              <div class="schedule-list" id="today-schedule-list"></div>
-            </section>
-
-            <section class="panel alerts-panel">
-              <div class="rail-heading">
-                <h3>Control Alerts</h3>
-                <button class="link-btn" id="view-alerts">View All</button>
-              </div>
-              <div id="alerts-list" class="alerts-list"></div>
-            </section>
-
-            <section class="panel workload-panel">
-              <div class="rail-heading">
-                <h3>My Workload</h3>
-                <button class="link-btn" data-view="reports">View Report</button>
-              </div>
-              <div class="workload-main">
-                <div class="donut" id="workload-donut"><div><strong id="workload-total">0</strong><span>Missions</span></div></div>
-                <div id="workload-legend" class="workload-legend"></div>
-              </div>
-              <div class="workload-footer"><span>Total</span><strong id="workload-total-footer">0</strong></div>
-              <div class="workload-footer"><span>Completed This Week</span><strong id="completed-week">0</strong></div>
-            </section>
-          </aside>
-        </div>
-      </section>
-
-      <section id="calendar-view" class="view">
-        <div class="calendar-toolbar panel">
-          <div class="calendar-title-block">
-            <h3 id="calendar-title">Calendar</h3>
-            <p id="calendar-subtitle">Plan focus blocks, meetings and mission deadlines in one place.</p>
-          </div>
-          <div class="calendar-toolbar-actions">
-            <button class="secondary-btn" id="calendar-today">Today</button>
-            <div class="calendar-nav">
-              <button class="icon-btn" id="calendar-prev" aria-label="Previous period">‹</button>
-              <button class="icon-btn" id="calendar-next" aria-label="Next period">›</button>
-            </div>
-            <strong id="calendar-range"></strong>
-            <div class="calendar-view-switch" role="group" aria-label="Calendar view">
-              <button data-calendar-mode="day">Day</button>
-              <button data-calendar-mode="week" class="active">Week</button>
-              <button data-calendar-mode="month">Month</button>
-              <button data-calendar-mode="year">Year</button>
-            </div>
-            <button class="primary-btn with-icon" id="add-calendar-event"><svg><use href="#i-plus"/></svg><span>Add Event</span></button>
-          </div>
-        </div>
-
-        <div class="calendar-layout">
-          <section class="panel calendar-main-panel">
-            <div id="calendar-canvas" class="calendar-canvas"></div>
-          </section>
-          <aside class="calendar-side">
-            <section class="panel calendar-side-panel">
-              <div class="rail-heading"><h3 id="unscheduled-heading">Unscheduled Missions</h3><span id="unscheduled-count" class="muted-label"></span></div>
-              <p class="calendar-side-copy" id="unscheduled-copy">Missions without a planned focus block.</p>
-              <div id="unscheduled-list" class="unscheduled-list"></div>
-            </section>
-            <section class="panel calendar-side-panel">
-              <div class="rail-heading"><h3 id="calendar-control-heading">Calendar Control</h3></div>
-              <div id="calendar-stats" class="calendar-stats"></div>
-            </section>
-          </aside>
-        </div>
-      </section>
-
-      <section id="generic-view" class="view">
-        <div class="generic-toolbar panel">
-          <div>
-            <h3 id="generic-title">Mission Queue</h3>
-            <p id="generic-description">Manage, filter and review all missions.</p>
-          </div>
-          <button class="primary-btn with-icon" data-action="open-intake"><svg><use href="#i-plus"/></svg>Add Mission</button>
-        </div>
-        <div class="panel table-panel">
-          <div class="table-filters">
-            <div class="search-input-wrap"><svg><use href="#i-search"/></svg><input id="table-search" type="search" placeholder="Search this view…" /></div>
-            <select id="table-status-filter">
-              <option value="all">All statuses</option>
-              <option value="Not Started">Not Started</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Waiting">Waiting</option>
-              <option value="Blocked">Blocked</option>
-              <option value="Completed">Completed</option>
-            </select>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Mission</th><th>Owner</th><th>Due</th><th>Priority</th><th>Status</th><th>Health</th><th>Score</th></tr></thead>
-              <tbody id="mission-table-body"></tbody>
-            </table>
-          </div>
-        </div>
+      <section id="taskList" class="task-list" aria-live="polite"></section>
+      <section id="emptyState" class="empty-state" hidden>
+        <div class="empty-icon" aria-hidden="true">✓</div>
+        <h2 id="emptyTitle">ไม่มีงานในรายการนี้</h2>
+        <p id="emptyText" class="muted">แตะ + เพื่อเพิ่มงาน</p>
       </section>
     </main>
+
+    <button id="addTaskButton" class="fab" type="button" aria-label="Add task">+</button>
   </div>
 
-  <div class="modal-backdrop hidden" id="modal-backdrop"></div>
+  <div id="sheetBackdrop" class="sheet-backdrop" hidden></div>
 
-  <section class="modal hidden" id="mission-modal" role="dialog" aria-modal="true" aria-labelledby="mission-modal-title">
-    <div class="modal-header">
-      <div><span class="eyebrow">MISSION INTAKE</span><h3 id="mission-modal-title">Create Mission</h3></div>
-      <button class="modal-close" data-close-modal aria-label="Close"><svg><use href="#i-x"/></svg></button>
+  <section id="taskSheet" class="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="taskSheetTitle" hidden>
+    <div class="sheet-handle" aria-hidden="true"></div>
+    <div class="sheet-header">
+      <h2 id="taskSheetTitle">เพิ่มงาน</h2>
+      <button id="closeTaskSheet" class="icon-button" type="button" aria-label="Close">×</button>
     </div>
-    <form id="mission-form">
-      <input type="hidden" id="mission-id" />
-      <div class="form-grid">
-        <label class="span-2">Mission Title<input id="mission-title" required maxlength="120" placeholder="e.g. Finalize July AR Provision Review" /></label>
-        <label class="span-2">Expected Outcome<textarea id="mission-outcome" rows="2" required placeholder="What must be true when this mission is complete?"></textarea></label>
-        <label>Owner<input id="mission-owner" required value="Natthanaruk" /></label>
-        <label>Project / Workstream<input id="mission-project" placeholder="e.g. Monthly Management Pack" /></label>
-        <label>Due Date &amp; Time<input id="mission-due" type="datetime-local" required /></label>
-        <label>Estimated Effort<select id="mission-effort"><option value="15">15 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="60" selected>60 min</option><option value="90">90 min</option><option value="120">2 hrs</option><option value="180">3+ hrs</option></select></label>
-        <label>Business Impact<select id="mission-impact"><option>Critical</option><option selected>High</option><option>Medium</option><option>Low</option></select></label>
-        <label>Consequence if Delayed<select id="mission-consequence"><option value="100">Severe — financial, customer or compliance impact</option><option value="80">High — blocks management or team delivery</option><option value="55" selected>Moderate — delay or rework</option><option value="25">Low — limited impact</option></select></label>
-        <label>Commitment<select id="mission-commitment"><option value="100">External / Management commitment</option><option value="70" selected>Internal team commitment</option><option value="35">Self-planned</option></select></label>
-        <label>Dependency Unlock<select id="mission-unlock"><option value="100">Unlocks multiple people or deliverables</option><option value="70">Unlocks one dependent activity</option><option value="30" selected>No major dependency</option></select></label>
-        <label>Focus Type<select id="mission-focus"><option>Deep Analysis</option><option>Decision</option><option>Creative / Writing</option><option>Review</option><option>Communication</option><option>Administrative</option></select></label>
-        <label>Energy Required<select id="mission-energy"><option>High</option><option selected>Medium</option><option>Low</option></select></label>
-        <label>Readiness<select id="mission-readiness"><option value="100" selected>Ready — all inputs available</option><option value="70">Mostly ready — minor gap</option><option value="35">Not ready — waiting for input</option><option value="0">Blocked</option></select></label>
-        <label>Status<select id="mission-status"><option>Not Started</option><option>In Progress</option><option>Waiting</option><option>Blocked</option><option>Completed</option></select></label>
-        <label class="span-2">Next Action<input id="mission-next" required placeholder="The exact next physical action" /></label>
-        <label class="span-2">Blocker / Dependency<textarea id="mission-blocker" rows="2" placeholder="Leave blank if ready"></textarea></label>
-      </div>
-      <div class="form-footer">
-        <button type="button" class="danger-link hidden" id="delete-mission">Delete Mission</button>
-        <div class="footer-spacer"></div>
-        <button type="button" class="secondary-btn" data-close-modal>Cancel</button>
-        <button type="submit" class="primary-btn">Save Mission</button>
-      </div>
-    </form>
-  </section>
+    <form id="taskForm" class="sheet-body" novalidate>
+      <label>
+        <span id="taskTitleLabel">ต้องทำอะไร?</span>
+        <input id="taskTitleInput" maxlength="160" placeholder="พิมพ์งานสั้น ๆ" required>
+      </label>
 
-  <section class="modal small-modal hidden" id="checkin-modal" role="dialog" aria-modal="true" aria-labelledby="checkin-title">
-    <div class="modal-header">
-      <div><span class="eyebrow">DAILY CAPACITY</span><h3 id="checkin-title">Daily Check-in</h3></div>
-      <button class="modal-close" data-close-modal aria-label="Close"><svg><use href="#i-x"/></svg></button>
-    </div>
-    <form id="checkin-form">
-      <div class="checkin-options">
-        <fieldset><legend>Current Energy</legend><div class="segmented"><label><input type="radio" name="energy" value="High" checked><span>High</span></label><label><input type="radio" name="energy" value="Medium"><span>Medium</span></label><label><input type="radio" name="energy" value="Low"><span>Low</span></label></div></fieldset>
-        <label>Available focus time today<input id="checkin-hours" type="number" min="0.5" max="12" step="0.5" value="4.5" /></label>
-        <label>Current uninterrupted block<select id="checkin-block"><option value="15">15 minutes</option><option value="30">30 minutes</option><option value="45">45 minutes</option><option value="60" selected>60 minutes</option><option value="90">90 minutes</option><option value="120">120+ minutes</option></select></label>
-        <label>Interruptions<select id="checkin-interruptions"><option value="Low">Low</option><option value="Medium" selected>Medium</option><option value="High">High</option></select></label>
-        <label>Today's main outcome<textarea id="checkin-outcome" rows="2" placeholder="One outcome that would make today successful"></textarea></label>
-      </div>
-      <div class="form-footer"><div class="footer-spacer"></div><button type="button" class="secondary-btn" data-close-modal>Cancel</button><button type="submit" class="primary-btn">Update Recommendation</button></div>
-    </form>
-  </section>
+      <details id="nextActionDetails" class="more-details">
+        <summary id="nextActionSummary">เพิ่มขั้นตอนถัดไป</summary>
+        <label>
+          <span id="nextActionLabel">ขั้นตอนถัดไป</span>
+          <input id="taskNextActionInput" maxlength="300" placeholder="เช่น ส่ง Draft ให้ Director review">
+        </label>
+      </details>
 
-  <section class="modal small-modal hidden" id="override-modal" role="dialog" aria-modal="true" aria-labelledby="override-title">
-    <div class="modal-header"><div><span class="eyebrow">MANUAL OVERRIDE</span><h3 id="override-title">Choose Recommended Mission</h3></div><button class="modal-close" data-close-modal aria-label="Close"><svg><use href="#i-x"/></svg></button></div>
-    <form id="override-form">
-      <label>Mission<select id="override-mission"></select></label>
-      <label>Reason<select id="override-reason"><option>Management instruction</option><option>Customer urgency</option><option>New information received</option><option>Personal focus preference</option><option>Other</option></select></label>
-      <div class="form-footer"><div class="footer-spacer"></div><button type="button" class="secondary-btn" data-close-modal>Cancel</button><button type="submit" class="primary-btn">Apply Override</button></div>
-    </form>
-  </section>
-
-  <section class="modal small-modal hidden" id="event-modal" role="dialog" aria-modal="true" aria-labelledby="event-modal-title">
-    <div class="modal-header">
-      <div><span class="eyebrow">CALENDAR</span><h3 id="event-modal-title">Add Calendar Event</h3></div>
-      <button class="modal-close" data-close-modal aria-label="Close"><svg><use href="#i-x"/></svg></button>
-    </div>
-    <form id="event-form">
-      <input type="hidden" id="event-id" />
-      <div class="form-grid">
-        <label class="span-2">Event Title<input id="event-title" required maxlength="120" placeholder="e.g. Management Review" /></label>
-        <label>Event Type<select id="event-type"><option value="meeting">Meeting</option><option value="focus">Focus Block</option><option value="review">Review / Approval</option><option value="reminder">Reminder</option></select></label>
-        <label>Project / Workstream<input id="event-project" placeholder="Optional" /></label>
-        <label>Start<input id="event-start" type="datetime-local" required /></label>
-        <label>End<input id="event-end" type="datetime-local" required /></label>
-        <label class="span-2">Linked Mission<select id="event-mission"><option value="">No linked mission</option></select></label>
-        <label class="span-2">Notes<textarea id="event-notes" rows="3" placeholder="Agenda, location or preparation note"></textarea></label>
-      </div>
-      <div class="form-footer">
-        <button type="button" class="danger-link hidden" id="delete-event">Delete Event</button>
-        <div class="footer-spacer"></div><button type="button" class="secondary-btn" data-close-modal>Cancel</button><button type="submit" class="primary-btn">Save Event</button>
-      </div>
-    </form>
-  </section>
-
-  <section class="modal small-modal hidden" id="schedule-modal" role="dialog" aria-modal="true" aria-labelledby="schedule-modal-title">
-    <div class="modal-header">
-      <div><span class="eyebrow">FOCUS PLANNING</span><h3 id="schedule-modal-title">Schedule Mission</h3></div>
-      <button class="modal-close" data-close-modal aria-label="Close"><svg><use href="#i-x"/></svg></button>
-    </div>
-    <form id="schedule-form">
-      <input type="hidden" id="schedule-mission-id" />
-      <div class="schedule-mission-name" id="schedule-mission-name"></div>
-      <div class="form-grid">
-        <label>Start<input id="schedule-start" type="datetime-local" required /></label>
-        <label>Duration<select id="schedule-duration"><option value="15">15 minutes</option><option value="30">30 minutes</option><option value="45">45 minutes</option><option value="60">60 minutes</option><option value="90">90 minutes</option><option value="120">120 minutes</option></select></label>
-        <label class="span-2">Focus Block Type<select id="schedule-kind"><option value="focus">Deep / Focus Work</option><option value="review">Review / Decision</option><option value="coordination">Coordination</option></select></label>
-      </div>
-      <div class="form-footer"><div class="footer-spacer"></div><button type="button" class="secondary-btn" data-close-modal>Cancel</button><button type="submit" class="primary-btn">Add to Calendar</button></div>
-    </form>
-  </section>
-
-  <section class="modal small-modal hidden" id="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-title">
-    <div class="modal-header">
-      <div><span class="eyebrow">PREFERENCES &amp; DATA</span><h3 id="settings-title">Settings</h3></div>
-      <button class="modal-close" data-close-modal aria-label="Close"><svg><use href="#i-x"/></svg></button>
-    </div>
-    <form id="settings-form">
-      <div class="form-grid">
-        <label>Language<select id="setting-language"><option value="th">ไทย</option><option value="en">English</option></select></label>
-        <label>Default Calendar View<select id="setting-calendar-view"><option value="day">Day</option><option value="week">Week</option><option value="month">Month</option><option value="year">Year Overview</option></select></label>
-        <label>Workday Starts<select id="setting-work-start"><option value="7">07:00</option><option value="8">08:00</option><option value="9">09:00</option></select></label>
-        <label>Workday Ends<select id="setting-work-end"><option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option></select></label>
-      </div>
-      <div class="data-tools">
-        <strong>Data Backup</strong>
-        <p>Export or restore missions, calendar events and preferences from this browser.</p>
-        <div class="data-tool-actions"><button type="button" class="secondary-btn" id="export-data">Export JSON</button><button type="button" class="secondary-btn" id="import-data">Import JSON</button><input id="import-file" type="file" accept="application/json" hidden /></div>
-      </div>
-      <div class="data-tools cloud-tools">
-        <div class="cloud-tool-heading">
-          <div><strong>Cloud Backup</strong><p>Back up or restore this device using Cloudflare D1.</p></div>
-          <span class="cloud-status" id="cloud-status">Not connected</span>
+      <fieldset>
+        <legend id="dueLegend">เมื่อไหร่</legend>
+        <div id="dueOptions" class="option-grid option-grid-3">
+          <button type="button" class="option is-active" data-due="today">วันนี้</button>
+          <button type="button" class="option" data-due="tomorrow">พรุ่งนี้</button>
+          <button type="button" class="option" data-due="none">ไม่กำหนด</button>
         </div>
-        <label class="cloud-token-label">Sync Token<input id="cloud-token" type="password" autocomplete="off" placeholder="Enter token configured in Cloudflare" /></label>
-        <div class="data-tool-actions">
-          <button type="button" class="secondary-btn" id="cloud-test">Test</button>
-          <button type="button" class="secondary-btn" id="cloud-restore">Restore</button>
-          <button type="button" class="primary-btn" id="cloud-backup">Back Up Now</button>
+        <input id="customDueDate" class="date-input" type="date" aria-label="Custom due date">
+      </fieldset>
+
+      <fieldset>
+        <legend id="effortLegend">ใช้เวลาประมาณ</legend>
+        <div id="effortOptions" class="option-grid option-grid-4">
+          <button type="button" class="option" data-effort="15">15</button>
+          <button type="button" class="option is-active" data-effort="30">30</button>
+          <button type="button" class="option" data-effort="60">60</button>
+          <button type="button" class="option" data-effort="90">90+</button>
         </div>
-        <small class="cloud-meta" id="cloud-meta">Cloud backup is manual in this phase.</small>
+      </fieldset>
+
+      <fieldset>
+        <legend id="typeLegend">ลักษณะงาน</legend>
+        <div id="typeOptions" class="option-grid option-grid-3">
+          <button type="button" class="option is-active" data-type="focus">โฟกัส</button>
+          <button type="button" class="option" data-type="quick">งานสั้น</button>
+          <button type="button" class="option" data-type="contact">ติดต่อ</button>
+        </div>
+      </fieldset>
+
+      <label class="toggle-row">
+        <span>
+          <strong id="priorityLabel">สำคัญ</strong>
+          <small id="priorityHint">ดันงานนี้ขึ้นก่อนงานปกติ</small>
+        </span>
+        <input id="priorityInput" type="checkbox" role="switch">
+      </label>
+
+      <p id="taskFormError" class="form-error" role="alert" hidden></p>
+      <div class="sheet-actions">
+        <button id="deleteTaskButton" class="button button-danger-ghost" type="button" hidden>ลบ</button>
+        <button id="saveTaskButton" class="button button-primary" type="submit">บันทึก</button>
       </div>
-      <div class="form-footer"><div class="footer-spacer"></div><button type="button" class="secondary-btn" data-close-modal>Cancel</button><button type="submit" class="primary-btn">Save Settings</button></div>
     </form>
   </section>
 
-  <div id="toast" class="toast hidden" role="status"></div>
-  <script src="./app.js"></script>
+  <section id="accountSheet" class="bottom-sheet compact-sheet" role="dialog" aria-modal="true" aria-labelledby="accountTitle" hidden>
+    <div class="sheet-handle" aria-hidden="true"></div>
+    <div class="sheet-header">
+      <h2 id="accountTitle">บัญชี</h2>
+      <button id="closeAccountSheet" class="icon-button" type="button" aria-label="Close">×</button>
+    </div>
+    <div class="sheet-body">
+      <div class="account-card">
+        <div id="accountAvatar" class="account-avatar">U</div>
+        <div>
+          <strong id="accountUserId">—</strong>
+          <p id="syncStatus" class="muted">ข้อมูลบันทึกในบัญชีนี้อัตโนมัติ</p>
+        </div>
+      </div>
+      <button id="languageToggle" class="settings-row" type="button">
+        <span id="languageRowLabel">ภาษา</span><strong id="languageValue">ไทย</strong>
+      </button>
+      <div class="install-note">
+        <strong id="iphoneTitle">ใช้บน iPhone</strong>
+        <p id="iphoneText">เปิด Share แล้วเลือก Add to Home Screen</p>
+      </div>
+      <button id="logoutButton" class="button button-danger-ghost full-width" type="button">ออกจากระบบ</button>
+    </div>
+  </section>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+  <script type="module" src="./app.js"></script>
 </body>
 </html>

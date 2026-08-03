@@ -1,22 +1,29 @@
-# QA Report — Phase 3 Lite
+# Mission Control 4.1 — QA Report
 
-## Passed
+## Scope
 
-- `app.js` syntax check
-- HTML duplicate-ID and JavaScript element-reference check
-- Pages Function health response
-- Unauthorized snapshot request rejection
-- Empty-cloud response
-- D1 snapshot PUT / GET round trip
-- Invalid snapshot rejection
+- iPhone-first account-based task app retained
+- Optional Next step added without changing the quick-create flow
+- One-time Codespace import prepared from the supplied Notion Priority Work List
+- 13 active items included; 119 completed historical items skipped
+- Thai Buddhist dates converted to ISO dates
+- Repeat imports are idempotent through deterministic task IDs
 
-## Design control
+## Automated checks
 
-- Existing Mission Control interface retained
-- Only one compact Cloud Backup section added to Settings
-- Cloud operations are manual and explicit
-- Sync Token is not embedded in source code or JSON exports
+- `npm test`: 10/10 passed
+- `npm run check`: passed
 
-## Remaining limitation
+## Data controls
 
-The Cloud feature is a single-user backup, not a multi-user collaboration system.
+- Notion seed is stored under `private-import/`
+- `private-import/` is excluded by `.gitignore`
+- Seed data is not served by the application after normal Git deployment
+- Import requires an existing authenticated account in the D1 `users` table
+- Every imported task is assigned to that account's internal `user_id`
+
+## Intentional exclusions
+
+- 119 completed Notion tasks are not imported to avoid cluttering the mobile Done view
+- Notion page bodies and Notes are not imported
+- No sample or mock tasks are created automatically

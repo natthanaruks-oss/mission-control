@@ -1,5 +1,7 @@
-node_modules/
-.dev.vars
 .env
+.dev.vars
 .wrangler/
+node_modules/
 .DS_Store
+*.log
+private-import/
