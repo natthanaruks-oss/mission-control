@@ -504,3 +504,5 @@ fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
 }
 .more-details[open] { padding: 0 12px 12px; }
 .more-details[open] summary { padding-inline: 2px; }
+
+.build-version{margin:14px 0 0;text-align:center;font-size:11px;color:#94a3b8;letter-spacing:.08em}

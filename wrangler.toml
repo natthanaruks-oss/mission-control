@@ -1,9 +1,0 @@
-name = "mission-control"
-pages_build_output_dir = "."
-compatibility_date = "2026-07-31"
-send_metrics = false
-
-[[d1_databases]]
-binding = "DB"
-database_name = "mission-control-db"
-database_id = "1c4fd773-64cc-4575-9797-388202ab9c1e"

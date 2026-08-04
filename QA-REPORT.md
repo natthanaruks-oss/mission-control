@@ -1,29 +1,36 @@
-# Mission Control 4.1 — QA Report
+# QA Report — Mission Control v4.3
 
-## Scope
+## Verified
 
-- iPhone-first account-based task app retained
-- Optional Next step added without changing the quick-create flow
-- One-time Codespace import prepared from the supplied Notion Priority Work List
-- 13 active items included; 119 completed historical items skipped
-- Thai Buddhist dates converted to ISO dates
-- Repeat imports are idempotent through deterministic task IDs
+- Automated application tests: 10/10 passed.
+- JavaScript syntax check: passed.
+- Shell syntax check: passed.
+- Static build: passed; 12 intended public files only.
+- Full setup flow tested against a local Cloudflare API/Wrangler simulator: passed end to end.
+- Existing Pages project path: passed without attempting duplicate project creation.
+- D1 create/reuse path: passed.
+- Root Wrangler configuration creation: passed.
+- Pages deploy command contains no custom `--config` path.
+- Production health-check loop: passed.
 
-## Automated checks
+## API-only control
 
-- `npm test`: 10/10 passed
-- `npm run check`: passed
+The setup contains no:
 
-## Data controls
+- `wrangler login`
+- `wrangler whoami`
+- OAuth flow
+- Browser approval
+- Cloudflare Dashboard instructions
+- Cloudflare Access or Service Token
 
-- Notion seed is stored under `private-import/`
-- `private-import/` is excluded by `.gitignore`
-- Seed data is not served by the application after normal Git deployment
-- Import requires an existing authenticated account in the D1 `users` table
-- Every imported task is assigned to that account's internal `user_id`
+All Cloudflare changes use the supplied API token and account ID.
 
-## Intentional exclusions
+## Main fixes from v4.2
 
-- 119 completed Notion tasks are not imported to avoid cluttering the mobile Done view
-- Notion page bodies and Notes are not imported
-- No sample or mock tasks are created automatically
+- Removed `--config` from every Pages command; Pages reads `wrangler.jsonc` from the repository root.
+- Replaced fragile Pages project creation logic with idempotent Cloudflare REST API checks.
+- Added API-based D1 create/reuse logic.
+- Added a clean `public/` build so `.env`, Notion seed, scripts, tests, and migrations are not uploaded as public assets.
+- Added post-deployment `/api/health` verification for the live D1 binding.
+- Pinned Wrangler to `4.118.0` for setup, deploy, and Notion import.

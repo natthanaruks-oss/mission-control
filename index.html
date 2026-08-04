@@ -11,7 +11,7 @@
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./styles.css?v=4.3.0">
   <title>Mission Control</title>
 </head>
 <body>
@@ -40,6 +40,7 @@
       <button id="authModeToggle" class="text-button" type="button">สร้างบัญชีใหม่</button>
       <button id="authLanguage" class="language-button" type="button">EN</button>
       <p id="authError" class="form-error" role="alert" hidden></p>
+      <p class="build-version">v4.3</p>
     </section>
   </main>
 
@@ -179,10 +180,11 @@
         <p id="iphoneText">เปิด Share แล้วเลือก Add to Home Screen</p>
       </div>
       <button id="logoutButton" class="button button-danger-ghost full-width" type="button">ออกจากระบบ</button>
+      <p class="build-version">v4.3</p>
     </div>
   </section>
 
   <div id="toast" class="toast" role="status" hidden></div>
-  <script type="module" src="./app.js"></script>
+  <script type="module" src="./app.js?v=4.3.0"></script>
 </body>
 </html>

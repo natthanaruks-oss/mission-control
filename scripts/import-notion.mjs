@@ -18,7 +18,7 @@ function loadEnv(path) {
 }
 
 function runWrangler(args, options = {}) {
-  const result = spawnSync('npx', ['--yes', 'wrangler@latest', ...args], {
+  const result = spawnSync('npx', ['--yes', 'wrangler@4.118.0', ...args], {
     cwd: process.cwd(),
     env: process.env,
     encoding: 'utf8',
@@ -44,6 +44,7 @@ loadEnv(resolve('.env'));
 const userKey = normalizeUserKey(process.argv[2]);
 const dataPath = resolve(process.argv[3] || 'private-import/notion-active-tasks.json');
 const dbName = process.env.MISSION_CONTROL_DB_NAME || 'mission-control-db';
+const configPath = resolve('wrangler.jsonc');
 
 if (!userKey) {
   console.error('Usage: npm run import:notion -- <user-id> [data-file]');
@@ -51,6 +52,10 @@ if (!userKey) {
 }
 if (!existsSync(dataPath)) {
   console.error(`Import file not found: ${dataPath}`);
+  process.exit(1);
+}
+if (!existsSync(configPath)) {
+  console.error('wrangler.jsonc not found. Run: npm run setup');
   process.exit(1);
 }
 if (!process.env.CLOUDFLARE_API_TOKEN || !process.env.CLOUDFLARE_ACCOUNT_ID) {

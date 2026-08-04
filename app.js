@@ -82,9 +82,13 @@ const elements = Object.fromEntries([
 function t(key) { return I18N[state.language][key] || key; }
 
 function clearLegacyData() {
-  if (localStorage.getItem('missionControl.legacyCleared.v4')) return;
+  if (localStorage.getItem('missionControl.legacyCleared.v4.3')) return;
   LEGACY_KEYS.forEach(key => localStorage.removeItem(key));
-  localStorage.setItem('missionControl.legacyCleared.v4', new Date().toISOString());
+  for (let index = localStorage.length - 1; index >= 0; index -= 1) {
+    const key = localStorage.key(index);
+    if (key?.startsWith('missionControl.') && ![LANGUAGE_KEY, TIME_KEY].includes(key)) localStorage.removeItem(key);
+  }
+  localStorage.setItem('missionControl.legacyCleared.v4.3', new Date().toISOString());
 }
 
 function todayKey(offsetDays = 0) {

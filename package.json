@@ -1,12 +1,15 @@
 {
   "name": "mission-control-mobile",
   "private": true,
-  "version": "4.1.0",
+  "version": "4.3.0",
   "type": "module",
   "scripts": {
     "test": "node --test",
-    "check": "find . -path './.git' -prune -o -path './.wrangler' -prune -o -name '*.js' -type f -print0 | xargs -0 -n1 node --check",
-    "dev": "npx wrangler@latest pages dev .",
-    "import:notion": "node scripts/import-notion.mjs"
+    "check": "find . -path './.git' -prune -o -path './.wrangler' -prune -o -path './public' -prune -o -name '*.js' -type f -print0 | xargs -0 -n1 node --check",
+    "dev": "npx --yes wrangler@4.118.0 pages dev public",
+    "build": "bash scripts/build-pages.sh",
+    "import:notion": "node scripts/import-notion.mjs",
+    "setup": "bash scripts/setup-and-deploy.sh",
+    "deploy": "npm run build && npx --yes wrangler@4.118.0 pages deploy public --project-name mission-control --branch main --commit-dirty=true"
   }
 }

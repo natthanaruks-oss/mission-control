@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "mission-control",
+  "account_id": "REPLACE_WITH_ACCOUNT_ID",
+  "pages_build_output_dir": "./public",
+  "compatibility_date": "2026-08-04",
+  "send_metrics": false,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "mission-control-db",
+      "database_id": "REPLACE_WITH_DATABASE_ID",
+      "migrations_dir": "./migrations"
+    }
+  ]
+}
